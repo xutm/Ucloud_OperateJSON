@@ -3,51 +3,81 @@
 <head>
 	<meta charset='utf-8'>
 	<title>Ucloud</title>
-	<script type="text/javascript" src="C:\demo\AngularJS\angular.min.js"></script>
+	<script type="text/javascript" src="../angular.min.js"></script>
+	<script type="text/javascript" src="../jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="../bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../bootstrap-3.3.6-dist/css/bootstrap.min.css">
 	<script type="text/javascript" src="Form.js"></script>
 </head>
 <body>
 
 <div ng-controller="FormController">
-	<h3>Ucloud</h3>
-	<br>
-	<div>
-		搜索：<input type='text' ng-model="titleFilter" placeholder="输入关键字"><!--//加上<tr ng-repeat="student in students|filter:titleFilter"></tr>实现了表格内容的检索-->
+	<h3>
+		<span class="glyphicon glyphicon-cloud" style="margin-left:10pt">Ucloud</span>
+		<button class="glyphicon glyphicon-circle-arrow-down" style="font-size:18px;margin-left:300pt;margin-right:20pt">InputJson</button>
+		<button class="glyphicon glyphicon-circle-arrow-up" style="font-size:18px;margin-right:20pt">OutputJson</button>
+	</h3>
+	<br />
+	<div style="margin-top:2pt;margin-buttom:2pt;margin-left:2pt">
+		<strong>Search: </strong><input type='text' ng-model="titleFilter" placeholder="Please Input Key Value">
+	</div>
+	<br />
+	<div style="margin-top:2pt;margin-buttom:2pt;margin-left:2pt">
+		<div style="margin-top:2pt;margin-buttom:2pt">
+			<strong>Key: </strong><input type="text" ng-model="newKey" placeholder="input Key" required/>
+			<strong>CN: </strong><input type="text" ng-model="newCN" placeholder="input CN" required/>
+			<strong>EN: </strong><input type="text" ng-model="newEN" placeholder="input EN" required/>
+			<strong>Field: </strong><input type="text" ng-model="newField" placeholder="input Field" required/>
+		</div>
+		<br />
+		<button ng-click="addTag()" class="btn" style="margin-top:2pt;margin-buttom:2pt">
+		<span class="glyphicon glyphicon-user">AddNewKey</span>
+		</button>
 	</div>
 	<br>
-	<table ng-table="tableParams">
-		<tr ng-repeat="Tag in Tags|filter:titleFilter"><!--//遍历每一个对象-->
-			<td title="Key">
-				<span ng-if="!Tag.$edit">{{Tag.Key}}</span>
-				<div ng-if="Tag.$edit"><input type="text" ng-model="Tag.Key"></div>
-			</td>		
-			<td title="CN">
-				<span ng-if="!Tag.$edit">{{Tag.CN}}</span>
-				<div ng-if="Tag.$edit"><input type="text" ng-model="Tag.CN"></div>
-			</td>
-			<td title="EN">
-				<span ng-if="!Tag.$edit">{{Tag.EN}}</span>
-				<div ng-if="Tag.$edit"><input type="text" ng-model="Tag.EN"></div>
-			</td>		
-			<td title="Field">
-				<span ng-if="!Tag.$edit">{{Tag.Field}}</span>
-				<div ng-if="Tag.$edit"><input type="text" ng-model="Tag.Field"></div>
-			</td>
-			<td title="'Actions'" width="200">
-				<a ng-if="!Tag.$edit" ng-click="Tag.$edit=true">Edit</a>
-				<a ng-if="Tag.$edit" ng-click="Tag.$edit=false">Save</a>
-				<a ng-click="deleteTag(obj)" ng-if="Tag.$edit">Delete</a>
-				<!--<a ng-click="addStudent()" ng-if="Tag.$edit">Add</a>-->
-			</td>				
-		</tr>
+	<table ng-table="tableParams" class="table table-striped">
+		<thead>
+			<tr>
+				<th>Edit</th>
+				<th>Key Value</th>
+				<th>CN</th>
+				<th>EN</th>
+				<th>Field</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="Tag in Tags|filter:titleFilter"><!--//遍历每一个对象-->
+				<td title="'Actions'" width="200">
+					<button ng-if="!Tag.$edit" ng-click="Tag.$edit=true" class="btn">
+						<span class="glyphicon glyphicon-pencil">Edit</span>
+					</button>
+					<button ng-if="Tag.$edit" ng-click="Tag.$edit=false">
+						<span class="glyphicon glyphicon-ok">Save</span>
+					</button>
+					<button ng-click="deleteTag(obj)" ng-if="Tag.$edit">
+						<span class="glyphicon glyphicon-remove">Delete</span>
+					</button>
+					<!--<a ng-click="addStudent()" ng-if="Tag.$edit">Add</a>-->
+				</td>
+				<td title="Key">
+					<span ng-if="!Tag.$edit">{{Tag.Key}}</span>
+					<div ng-if="Tag.$edit"><input type="text" ng-model="Tag.Key"></div>
+				</td>		
+				<td title="CN">
+					<span ng-if="!Tag.$edit">{{Tag.CN}}</span>
+					<div ng-if="Tag.$edit"><input type="text" ng-model="Tag.CN"></div>
+				</td>
+				<td title="EN">
+					<span ng-if="!Tag.$edit">{{Tag.EN}}</span>
+					<div ng-if="Tag.$edit"><input type="text" ng-model="Tag.EN"></div>
+				</td>		
+				<td title="Field">
+					<span ng-if="!Tag.$edit">{{Tag.Field}}</span>
+					<div ng-if="Tag.$edit"><input type="text" ng-model="Tag.Field"></div>
+				</td>				
+			</tr>			
+		</tbody>
 	</table>
-	<div>
-		<input type="text" ng-model="newKey" placeholder="input Key" required/>
-		<input type="text" ng-model="newCN" placeholder="input CN" required/>
-		<input type="text" ng-model="newEN" placeholder="input EN" required/>
-		<input type="text" ng-model="newField" placeholder="input Field" required/>
-		<input type="button" ng-click="addTag()" value="Add"/>
-	</div>
 </div>
 </body>
 </html>
