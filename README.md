@@ -49,7 +49,23 @@
 		one commend: cd Ucloud_OperateJSON && operateJSON
 				open index.html in explorer
 
+#MySQL
+	1,CREATE DATABASE ucloud;
+	2,SHOW DATABASES;
+	3,use ucloud
+	4,CREATE TABLE Ucloud_datas(
+		KeyValue varchar(50),
+		CN TEXT,
+		EN TEXT,
+		Field varchar(50)
+	) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
+	5,base function
+		(1)show databases;
+		(2)create database <database name>;
+		(3)use <database name>
+		(4)show tables;
+		(5)select * from <table>;
 
 #Get New Technology&Knowledge In This Program
 	1,AngularJS $http service and jQuery.ajax()

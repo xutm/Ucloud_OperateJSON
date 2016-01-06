@@ -24,14 +24,14 @@
 	<br />
 	<div style="margin-top:2pt;margin-buttom:2pt;margin-left:2pt">
 		<div style="margin-top:2pt;margin-buttom:2pt">
-			<strong>Key: </strong><input type="text" ng-model="newKey" placeholder="input Key" required/>
+			<strong>KeyValue: </strong><input type="text" ng-model="newKeyValue" placeholder="input KeyValue" required/>
 			<strong>CN: </strong><input type="text" ng-model="newCN" placeholder="input CN" required/>
 			<strong>EN: </strong><input type="text" ng-model="newEN" placeholder="input EN" required/>
 			<strong>Field: </strong><input type="text" ng-model="newField" placeholder="input Field" required/>
 		</div>
 		<br />
 		<button ng-click="addTag()" class="btn" style="margin-top:2pt;margin-buttom:2pt">
-		<span class="glyphicon glyphicon-user">AddNewKey</span>
+		<span class="glyphicon glyphicon-user">AddNewKeyValue</span>
 		</button>
 	</div>
 	<br>
@@ -59,9 +59,9 @@
 					</button>
 					<!--<a ng-click="addStudent()" ng-if="Tag.$edit">Add</a>-->
 				</td>
-				<td title="Key">
-					<span ng-if="!Tag.$edit">{{Tag.Key}}</span>
-					<div ng-if="Tag.$edit"><input type="text" ng-model="Tag.Key"></div>
+				<td title="KeyValue">
+					<span ng-if="!Tag.$edit">{{Tag.KeyValue}}</span>
+					<div ng-if="Tag.$edit"><input type="text" ng-model="Tag.KeyValue"></div>
 				</td>		
 				<td title="CN">
 					<span ng-if="!Tag.$edit">{{Tag.CN}}</span>

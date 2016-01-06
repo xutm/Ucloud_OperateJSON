@@ -43,15 +43,15 @@ angular.module('myModule', [], function($httpProvider) {
 	}];
 })
 .controller('FormController',function($scope, $http){
-	$scope.Tags=[
-	{Key:'No1',CN:'服务器',EN:'Server',Field:'common'},
-	{Key:'No2',CN:'云',EN:'Cloud',Field:'main'},
-	{Key:'No3',CN:'主机',EN:'Main Engine',Field:'CDN'},
-	{Key:'No4',CN:'客户端',EN:'Client',Field:'SAAS'}
-	];
+	// $scope.Tags=[
+	// {KeyValue:'No1',CN:'服务器',EN:'Server',Field:'common'},
+	// {KeyValue:'No2',CN:'云',EN:'Cloud',Field:'main'},
+	// {KeyValue:'No3',CN:'主机',EN:'Main Engine',Field:'CDN'},
+	// {KeyValue:'No4',CN:'客户端',EN:'Client',Field:'SAAS'}
+	// ];
 	$scope.addTag=function(){
-		$scope.Tags.push({Key:$scope.newKey,CN:$scope.newCN,EN:$scope.newEN,Field:$scope.newField});
-		$scope.newKey='';
+		$scope.Tags.push({KeyValue:$scope.newKeyValue,CN:$scope.newCN,EN:$scope.newEN,Field:$scope.newField});
+		$scope.newKeyValue='';
 		$scope.newCN='';
 		$scope.newEN='';
 		$scope.newField='';
@@ -64,8 +64,11 @@ angular.module('myModule', [], function($httpProvider) {
 	$scope.loadData = function() {
 		$http.get('http://127.0.0.1:8081/listUsers')
 			.success(function(data){
-				//console.log(JSON.stringify(angular.fromJson(data)));
+				$scope.Tags = data;
 				console.log(data);
+				// for(var key in data){ 
+				// 	console.log(key); console.log(data[key]);//这个就是value 
+				// }
 			})
 			.error(function(data){
 				console.log('Error: ' + data);
@@ -78,7 +81,7 @@ angular.module('myModule', [], function($httpProvider) {
 		var data = $scope.tm;
 		$http.post('http://127.0.0.1:8081/process_post', {tm: $scope.tm})
 			.success(function(data){
-				console.log(data);
+				console.log(data); 
 			})
 			.error(function(data){
 				console.log('Error: ' + data);

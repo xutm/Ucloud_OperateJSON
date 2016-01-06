@@ -5,6 +5,82 @@ var bodyParser = require('body-parser');    // pull information from HTML POST (
 var app = express();         // create our app w/ express
 var fs = require("fs");
 var urlencodedParser = bodyParser.urlencoded({ extended: false })// Create application/x-www-form-urlencoded parser
+var EN_data = require("./locale/build/en_US.json");
+var CN_data = require("./locale/build/zh_CN.json");
+var _ = require("underscore");
+
+//define model====================
+// First you need to create a connection to the db---------
+var con = mysql.createConnection({
+	host: "localhost",
+	user: "root",
+	password: "",
+	database: "ucloud"
+});
+
+//api=============================
+con.connect(function(err){
+	if(err){
+		console.log('Error connecting to Db');
+		return;
+	}
+	console.log('Connection established');
+});
+
+//Reading---------------------------------------------
+var userLandVariable = '4 ';
+
+function Read(){
+	con.query('SELECT * FROM ucloud_datas',function(err,rows){
+		if(err) throw err;
+		console.log('Data received from Db:\n');
+		console.log(rows);
+	});
+}
+	
+//Creating-----------------------------------------------
+var addValue = {KeyValue:"",CN:"",EN:"",Field:""};
+function Create(addValue){
+	con.query('INSERT INTO ucloud_datas SET ?', addValue, function(err, res){
+		if(err) throw err;
+		//console.log('Last insert ID:', res.insertId);
+	});
+}
+
+//Updating----------------------------------------------
+var updata_data = {CN: "",KeyValue: ""};
+function Update(updata_data){
+	con.query('UPDATE ucloud_datas SET CN = ? Where KeyValue = ?', [updata_data.CN, updata_data.KeyValue], function (err, result) {
+		if (err) throw err;
+		//Similarly, when executing an update query, the number of rows affected can be retrieved using result.affectedRows
+		//console.log('Changed ' + result.changedRows + ' rows');
+		}
+	);
+}
+
+//Destroying---------------------------------------------
+function Destroy(){
+	con.query('DELETE FROM ucloud_datas WHERE id = ?', [5], function(err, result){
+		if(err) throw err;
+		console.log('Deleted ' + result.affectedRows + ' rows');
+	});
+}
+
+//console.log(CN_data);
+// _.each(EN_data, function(value, key){
+// 	addValue.KeyValue = key;
+// 	addValue.EN = value;
+// 	//Create Table
+// 	Create(addValue);
+// });
+// console.log(addValue);
+// _.each(CN_data, function(value, key){
+// 	updata_data.CN = value;
+// 	updata_data.KeyValue = key;
+// 	//Update Table
+// 	Update(updata_data);
+// });
+// console.log(addValue);
 
 //configuration======================
 app.use(express.static('public'));
@@ -28,11 +104,20 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));// parse applicat
 
 //send to client--------------------------------------------
 app.get('/listUsers', function (req, res) {
-	con.query('SELECT * FROM employees',function(err,rows){
+	var rows_data;
+	con.query('SELECT * FROM ucloud_datas where KeyValue = "-1"',function(err,rows){
 		if(err) throw err;
-		console.log('Data received from Db:\n');
+		//console.log('Data received from Db:\n');
 		console.log(rows);
-		res.json(rows);// return JSON format
+		rows_data = rows;
+		//res.json(rows);// return JSON format
+	});
+	con.query('SELECT * FROM ucloud_datas ',function(err,rows){
+		if(err) throw err;
+		//console.log('Data received from Db:\n');
+		//console.log(rows);
+		//rows_data.concat(rows)
+		res.json(rows_data.concat(rows));// return JSON format
 	});
 })
 
@@ -53,63 +138,7 @@ var server = app.listen(8081, function () {
 	console.log("Example app listening at http://%s:%s", host, port);
 })
 
-//define model====================
-// First you need to create a connection to the db---------
-var con = mysql.createConnection({
-	host: "localhost",
-	user: "root",
-	password: "",
-	database: "sitepoint"
-});
-
-//api=============================
-con.connect(function(err){
-	if(err){
-		console.log('Error connecting to Db');
-		return;
-	}
-	console.log('Connection established');
-});
-
-//Reading---------------------------------------------
-var userLandVariable = '4 ';
-
-function Read(){
-	con.query('SELECT * FROM employees',function(err,rows){
-		if(err) throw err;
-		console.log('Data received from Db:\n');
-		console.log(rows);
-	});
-}
-	
-var employee = {name: '许天明', location: '中国'};
-//Creating-----------------------------------------------
-function Create(){
-	con.query('INSERT INTO employees SET ?', employee, function(err, res){
-		if(err) throw err;
-		console.log('Last insert ID:', res.insertId);
-	});
-}
-
-//Updating----------------------------------------------
-function Update(){
-	con.query('UPDATE employees SET location = ? Where ID = ?', ["South Africa", 5], function (err, result) {
-		if (err) throw err;
-		//Similarly, when executing an update query, the number of rows affected can be retrieved using result.affectedRows
-		console.log('Changed ' + result.changedRows + ' rows');
-		}
-	);
-}
-
-//Destroying---------------------------------------------
-function Destroy(){
-	con.query('DELETE FROM employees WHERE id = ?', [5], function(err, result){
-		if(err) throw err;
-		console.log('Deleted ' + result.affectedRows + ' rows');
-	});
-}
-
-// Read();
+Read();
 // Create();
 // Read();
 // // Update();
