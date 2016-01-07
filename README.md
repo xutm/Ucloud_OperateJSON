@@ -66,6 +66,8 @@
 		(3)use <database name>
 		(4)show tables;
 		(5)select * from <table>;
+	http://www.sitepoint.com/using-node-mysql-javascript-client/
+	http://database.51cto.com/art/201005/201989.htm
 
 #Get New Technology&Knowledge In This Program
 	1,AngularJS $http service and jQuery.ajax()

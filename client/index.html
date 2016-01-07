@@ -48,32 +48,32 @@
 		<tbody>
 			<tr ng-repeat="Tag in Tags|filter:titleFilter"><!--//遍历每一个对象-->
 				<td title="'Actions'" width="200">
-					<button ng-if="!Tag.$edit" ng-click="Tag.$edit=true" class="btn">
+					<button ng-if="!tagstatus" ng-click="editTag()" class="btn">
 						<span class="glyphicon glyphicon-pencil">Edit</span>
 					</button>
-					<button ng-if="Tag.$edit" ng-click="Tag.$edit=false">
+					<button ng-if="tagstatus" ng-click="saveTag()">
 						<span class="glyphicon glyphicon-ok">Save</span>
 					</button>
-					<button ng-click="deleteTag(obj)" ng-if="Tag.$edit">
+					<button ng-if="tagstatus" ng-click="deleteTag(obj)">
 						<span class="glyphicon glyphicon-remove">Delete</span>
 					</button>
-					<!--<a ng-click="addStudent()" ng-if="Tag.$edit">Add</a>-->
+					<!--<a ng-click="addStudent()" ng-if="tagstatus">Add</a>-->
 				</td>
 				<td title="KeyValue">
-					<span ng-if="!Tag.$edit">{{Tag.KeyValue}}</span>
-					<div ng-if="Tag.$edit"><input type="text" ng-model="Tag.KeyValue"></div>
+					<span ng-if="!tagstatus">{{Tag.KeyValue}}</span>
+					<div ng-if="tagstatus"><input type="text" ng-model="Tag.KeyValue"></div>
 				</td>		
 				<td title="CN">
-					<span ng-if="!Tag.$edit">{{Tag.CN}}</span>
-					<div ng-if="Tag.$edit"><input type="text" ng-model="Tag.CN"></div>
+					<span ng-if="!tagstatus">{{Tag.CN}}</span>
+					<div ng-if="tagstatus"><input type="text" ng-model="Tag.CN"></div>
 				</td>
 				<td title="EN">
-					<span ng-if="!Tag.$edit">{{Tag.EN}}</span>
-					<div ng-if="Tag.$edit"><input type="text" ng-model="Tag.EN"></div>
+					<span ng-if="!tagstatus">{{Tag.EN}}</span>
+					<div ng-if="tagstatus"><input type="text" ng-model="Tag.EN"></div>
 				</td>		
 				<td title="Field">
-					<span ng-if="!Tag.$edit">{{Tag.Field}}</span>
-					<div ng-if="Tag.$edit"><input type="text" ng-model="Tag.Field"></div>
+					<span ng-if="!tagstatus">{{Tag.Field}}</span>
+					<div ng-if="tagstatus"><input type="text" ng-model="Tag.Field"></div>
 				</td>				
 			</tr>			
 		</tbody>

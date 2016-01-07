@@ -28,32 +28,27 @@ con.connect(function(err){
 });
 
 //Reading---------------------------------------------
-var userLandVariable = '4 ';
-
+var rows_readData;
 function Read(){
 	con.query('SELECT * FROM ucloud_datas',function(err,rows){
 		if(err) throw err;
-		console.log('Data received from Db:\n');
-		console.log(rows);
+		rows_readData = rows;
 	});
 }
-	
+
 //Creating-----------------------------------------------
-var addValue = {KeyValue:"",CN:"",EN:"",Field:""};
-function Create(addValue){
-	con.query('INSERT INTO ucloud_datas SET ?', addValue, function(err, res){
+var addTag = {KeyValue:"",CN:"",EN:"",Field:""};
+function Create(){
+	con.query('INSERT INTO ucloud_datas SET ?', addTag, function(err, res){
 		if(err) throw err;
-		//console.log('Last insert ID:', res.insertId);
 	});
 }
 
 //Updating----------------------------------------------
-var updata_data = {CN: "",KeyValue: ""};
-function Update(updata_data){
-	con.query('UPDATE ucloud_datas SET CN = ? Where KeyValue = ?', [updata_data.CN, updata_data.KeyValue], function (err, result) {
+var update_data = {KeyValue:"-1",CN:"天明",EN:"tomorrows",Field:"USST"};
+function Update(){
+	con.query('UPDATE ucloud_datas SET CN = ?,EN = ?,Field = ? WHERE KeyValue = ?', [update_data.CN, update_data.EN, update_data.Field,update_data.KeyValue], function (err, result) {
 		if (err) throw err;
-		//Similarly, when executing an update query, the number of rows affected can be retrieved using result.affectedRows
-		//console.log('Changed ' + result.changedRows + ' rows');
 		}
 	);
 }
@@ -65,20 +60,22 @@ function Destroy(){
 		console.log('Deleted ' + result.affectedRows + ' rows');
 	});
 }
-
+//Read();
+// Update();
+// Read();
 //console.log(CN_data);
 // _.each(EN_data, function(value, key){
-// 	addValue.KeyValue = key;
-// 	addValue.EN = value;
+// 	addTag.KeyValue = key;
+// 	addTag.EN = value;
 // 	//Create Table
 // 	Create(addValue);
 // });
 // console.log(addValue);
 // _.each(CN_data, function(value, key){
-// 	updata_data.CN = value;
-// 	updata_data.KeyValue = key;
+// 	update_data.CN = value;
+// 	update_data.KeyValue = key;
 // 	//Update Table
-// 	Update(updata_data);
+// 	Update(update_date);
 // });
 // console.log(addValue);
 
@@ -101,32 +98,34 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));// parse applicat
 // app.get('*', function(req, res) {
 // 	res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 // });
+//update from client data---------------------------------
+// app.get('/Updatedata', function (req, res) {
+// 	updata_date.KeyValue = req.body.KeyValue;
+// 	updata_date.CN = req.body.CN;
+// 	updata_date.EN = req.body.EN;
+// 	updata_date.Field = req.body.Field;
+// 	//Update Table    var update_data = {KeyValue:"-1",CN:"天明",EN:"tomorrows",Field:"USST"};
+// 	Update();	
+// })
+
+app.post('/addTag', urlencodedParser, function (req, res) {
+//var addTag = {KeyValue:"",CN:"",EN:"",Field:""};
+	addTag.KeyValue = req.body.KeyValue;
+	addTag.CN = req.body.CN;
+	addTag.EN = req.body.EN;
+	addTag.Field = req.body.Field;
+	console.log(addTag);
+	Create();
+});
 
 //send to client--------------------------------------------
-app.get('/listUsers', function (req, res) {
-	var rows_data;
-	con.query('SELECT * FROM ucloud_datas where KeyValue = "-1"',function(err,rows){
-		if(err) throw err;
-		//console.log('Data received from Db:\n');
-		console.log(rows);
-		rows_data = rows;
-		//res.json(rows);// return JSON format
-	});
-	con.query('SELECT * FROM ucloud_datas ',function(err,rows){
-		if(err) throw err;
-		//console.log('Data received from Db:\n');
-		//console.log(rows);
-		//rows_data.concat(rows)
-		res.json(rows_data.concat(rows));// return JSON format
-	});
+app.get('/loadData', function (req, res) {
+	Read();
+	res.json(rows_readData);// return JSON format
 })
 
 //receive from client---------------------------------------
 app.post('/process_post', urlencodedParser, function (req, res) {
-	// response = {
-	//     first_name:req.body.first_name,
-	//     last_name:req.body.last_name
-	// };
 	console.log(req.body);
 	res.json("success");
 })
@@ -137,14 +136,6 @@ var server = app.listen(8081, function () {
 	var port = server.address().port;
 	console.log("Example app listening at http://%s:%s", host, port);
 })
-
-Read();
-// Create();
-// Read();
-// // Update();
-// // Read();
-// // Destroy();
-// // Read();
 
 // con.end(function(err) {
 // 	// The connection is terminated gracefully

@@ -49,20 +49,44 @@ angular.module('myModule', [], function($httpProvider) {
 	// {KeyValue:'No3',CN:'主机',EN:'Main Engine',Field:'CDN'},
 	// {KeyValue:'No4',CN:'客户端',EN:'Client',Field:'SAAS'}
 	// ];
-	$scope.addTag=function(){
-		$scope.Tags.push({KeyValue:$scope.newKeyValue,CN:$scope.newCN,EN:$scope.newEN,Field:$scope.newField});
-		$scope.newKeyValue='';
-		$scope.newCN='';
-		$scope.newEN='';
-		$scope.newField='';
-	};
-	$scope.deleteTag=function(student){
-		$scope.Tags.splice($scope.students.indexOf(student),1);
+	$scope.Tags = [];
+	$scope.tagstatus = false;
+	$scope.saveTag = function() {
+		$scope.tagstatus = false;
+	}
+
+	$scope.editTag = function() {
+		$scope.tagstatus = true;
+	}
+
+	$scope.deleteTag = function(student){
+		$scope.tagstatus = false;
+		//$scope.Tags.splice($scope.students.indexOf(student),1);
 		//$scope.student.splice(index,1);//删除选中的一行
 	};
 
+	$scope.addTag=function(){
+		if( $scope.newKeyValue || $scope.newCN || $scope.newEN || $scope.newField){
+			$scope.Tags.push({KeyValue: $scope.newKeyValue, CN:$scope.newCN, EN:$scope.newEN, Field:$scope.newField});
+
+			var newTag = {KeyValue:"",CN:"",EN:"",Field:""};
+			newTag.KeyValue = $scope.newKeyValue;
+			newTag.CN = $scope.newCN;
+			newTag.EN = $scope.newEN;
+			newTag.Field = $scope.newField;
+			console.log(newTag);
+			var method = 'http://127.0.0.1:8081/addTag';
+			var Tag = newTag;
+			POST(method, Tag);	
+			$scope.newKeyValue = '';
+			$scope.newCN = '';
+			$scope.newEN = '';
+			$scope.newField = '';
+		}
+	};
+
 	$scope.loadData = function() {
-		$http.get('http://127.0.0.1:8081/listUsers')
+		$http.get('http://127.0.0.1:8081/loadData')
 			.success(function(data){
 				$scope.Tags = data;
 				console.log(data);
@@ -78,8 +102,8 @@ angular.module('myModule', [], function($httpProvider) {
 	$scope.tm="xtm";
 	$scope.sendData = function() {
 		console.log($scope.tm);
-		var data = $scope.tm;
-		$http.post('http://127.0.0.1:8081/process_post', {tm: $scope.tm})
+		var data1 = {tm: $scope.tm};
+		$http.post('http://127.0.0.1:8081/process_post', data1)
 			.success(function(data){
 				console.log(data); 
 			})
@@ -87,4 +111,14 @@ angular.module('myModule', [], function($httpProvider) {
 				console.log('Error: ' + data);
 			});
 	};
+
+	function POST(method, Tag){
+		$http.post(method, Tag)
+			.success(function(data){
+				console.log(data); 
+			})
+			.error(function(data){
+				console.log('Error: ' + data);
+			});		
+	}
 })
