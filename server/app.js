@@ -45,25 +45,23 @@ function Create(){
 }
 
 //Updating----------------------------------------------
-var update_data = {KeyValue:"-1",CN:"天明",EN:"tomorrows",Field:"USST"};
+var updateTag = {KeyValue:"0",CN:"许天明",EN:"Your login has expired, please login again.",Field:""};
 function Update(){
-	con.query('UPDATE ucloud_datas SET CN = ?,EN = ?,Field = ? WHERE KeyValue = ?', [update_data.CN, update_data.EN, update_data.Field,update_data.KeyValue], function (err, result) {
+	con.query('UPDATE ucloud_datas SET CN = ?,EN = ?,Field = ? WHERE KeyValue = ?', [updateTag.CN, updateTag.EN, updateTag.Field, updateTag.KeyValue], function (err, result) {
 		if (err) throw err;
-		}
-	);
+	});
 }
 
 //Destroying---------------------------------------------
+var destroyTag = {KeyValue:"lp",CN:"",EN:"",Field:""};
 function Destroy(){
-	con.query('DELETE FROM ucloud_datas WHERE id = ?', [5], function(err, result){
+	con.query('DELETE FROM ucloud_datas WHERE KeyValue = ?', [destroyTag.KeyValue], function(err, result){
 		if(err) throw err;
-		console.log('Deleted ' + result.affectedRows + ' rows');
 	});
 }
-//Read();
-// Update();
-// Read();
+
 //console.log(CN_data);
+//input the en_US.json & zh_CN.json into the mysql==========================
 // _.each(EN_data, function(value, key){
 // 	addTag.KeyValue = key;
 // 	addTag.EN = value;
@@ -72,10 +70,10 @@ function Destroy(){
 // });
 // console.log(addValue);
 // _.each(CN_data, function(value, key){
-// 	update_data.CN = value;
-// 	update_data.KeyValue = key;
+// 	updateTag.CN = value;
+// 	updateTag.KeyValue = key;
 // 	//Update Table
-// 	Update(update_date);
+// 	Update(updateTag);
 // });
 // console.log(addValue);
 
@@ -98,25 +96,39 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));// parse applicat
 // app.get('*', function(req, res) {
 // 	res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 // });
-//update from client data---------------------------------
-// app.get('/Updatedata', function (req, res) {
-// 	updata_date.KeyValue = req.body.KeyValue;
-// 	updata_date.CN = req.body.CN;
-// 	updata_date.EN = req.body.EN;
-// 	updata_date.Field = req.body.Field;
-// 	//Update Table    var update_data = {KeyValue:"-1",CN:"天明",EN:"tomorrows",Field:"USST"};
-// 	Update();	
-// })
 
+//update Tag when receive the commend from front end---------------------------------
+app.post('/saveTag', urlencodedParser, function (req, res) {
+	updateTag.KeyValue = req.body.KeyValue;
+	updateTag.CN = req.body.CN;
+	updateTag.EN = req.body.EN;
+	updateTag.Field = req.body.Field;
+	console.log(updateTag);
+	//Update Table    var updateTag = {KeyValue:"-1",CN:"天明",EN:"tomorrows",Field:"USST"};
+	Update();
+	res.json("success");	
+})
+
+//insert Tag when receive the commend from front end-----------------------------------
 app.post('/addTag', urlencodedParser, function (req, res) {
-//var addTag = {KeyValue:"",CN:"",EN:"",Field:""};
+	//var addTag = {KeyValue:"",CN:"",EN:"",Field:""};
 	addTag.KeyValue = req.body.KeyValue;
 	addTag.CN = req.body.CN;
 	addTag.EN = req.body.EN;
 	addTag.Field = req.body.Field;
 	console.log(addTag);
 	Create();
+	res.json("success");
 });
+
+//destroy Tag when receive the commend from front end----------------------------------
+app.post('/deleteTag', urlencodedParser, function (req, res) {
+	//var destroyTag = {KeyValue:"lp",CN:"",EN:"",Field:""};
+	destroyTag.KeyValue = req.body.KeyValue;
+	console.log(destroyTag.KeyValue);
+	Destroy();
+	res.json("success");
+})
 
 //send to client--------------------------------------------
 app.get('/loadData', function (req, res) {

@@ -3,6 +3,7 @@
 <head>
 	<meta charset='utf-8'>
 	<title>Ucloud</title>
+	<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 	<script type="text/javascript" src="./scripts/app/angular.min.js"></script>
 	<script type="text/javascript" src="./scripts/app/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript" src="./scripts/app/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
@@ -11,7 +12,7 @@
 </head>
 <body>
 
-<div ng-controller="FormController">
+<div ng-controller="JSONController" class="w3-container">
 	<h3>
 		<span class="glyphicon glyphicon-cloud" style="margin-left:10pt">Ucloud</span>
 		<button class="glyphicon glyphicon-circle-arrow-down" style="font-size:18px;margin-left:300pt;margin-right:20pt" ng-click="loadData()">InputJson</button>
@@ -35,7 +36,7 @@
 		</button>
 	</div>
 	<br>
-	<table ng-table="tableParams" class="table table-striped">
+	<table ng-table="tableParams" class="w3-table w3-bordered w3-striped">
 		<thead>
 			<tr>
 				<th>Edit</th>
@@ -48,32 +49,32 @@
 		<tbody>
 			<tr ng-repeat="Tag in Tags|filter:titleFilter"><!--//遍历每一个对象-->
 				<td title="'Actions'" width="200">
-					<button ng-if="!tagstatus" ng-click="editTag()" class="btn">
+					<button ng-if="!Tag.$edit" ng-click="Tag.$edit = true; editTag(Tag)" class="btn">
 						<span class="glyphicon glyphicon-pencil">Edit</span>
 					</button>
-					<button ng-if="tagstatus" ng-click="saveTag()">
+					<button ng-if="Tag.$edit" ng-click="Tag.$edit = false; saveTag(Tag)" class="btn">
 						<span class="glyphicon glyphicon-ok">Save</span>
 					</button>
-					<button ng-if="tagstatus" ng-click="deleteTag(obj)">
+					<button ng-if="Tag.$edit" ng-click="Tag.$edit = false; deleteTag(Tag)" class="btn">
 						<span class="glyphicon glyphicon-remove">Delete</span>
 					</button>
-					<!--<a ng-click="addStudent()" ng-if="tagstatus">Add</a>-->
+					<!--<a ng-click="addStudent()" ng-if="Tag.$edit">Add</a>-->
 				</td>
 				<td title="KeyValue">
-					<span ng-if="!tagstatus">{{Tag.KeyValue}}</span>
-					<div ng-if="tagstatus"><input type="text" ng-model="Tag.KeyValue"></div>
+					<span ng-if="!Tag.$edit" title = {{Tag.KeyValue}}>{{Tag.KeyValue}}</span>
+					<div ng-if="Tag.$edit" title = {{Tag.KeyValue}}><input type="text" ng-model="Tag.KeyValue"></div>
 				</td>		
 				<td title="CN">
-					<span ng-if="!tagstatus">{{Tag.CN}}</span>
-					<div ng-if="tagstatus"><input type="text" ng-model="Tag.CN"></div>
+					<span ng-if="!Tag.$edit" title = {{Tag.CN}}>{{Tag.CN}}</span>
+					<div ng-if="Tag.$edit" title = {{Tag.CN}}><input type="text" ng-model="Tag.CN"></div>
 				</td>
 				<td title="EN">
-					<span ng-if="!tagstatus">{{Tag.EN}}</span>
-					<div ng-if="tagstatus"><input type="text" ng-model="Tag.EN"></div>
+					<span ng-if="!Tag.$edit" title = {{Tag.EN}}>{{Tag.EN}}</span>
+					<div ng-if="Tag.$edit" title = {{Tag.EN}}><input type="text" ng-model="Tag.EN"></div>
 				</td>		
 				<td title="Field">
-					<span ng-if="!tagstatus">{{Tag.Field}}</span>
-					<div ng-if="tagstatus"><input type="text" ng-model="Tag.Field"></div>
+					<span ng-if="!Tag.$edit" title = {{Tag.Field}}>{{Tag.Field}}</span>
+					<div ng-if="Tag.$edit" title = {{Tag.Field}}><input type="text" ng-model="Tag.Field"></div>
 				</td>				
 			</tr>			
 		</tbody>

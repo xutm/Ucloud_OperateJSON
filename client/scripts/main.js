@@ -42,7 +42,7 @@ angular.module('myModule', [], function($httpProvider) {
 		return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
 	}];
 })
-.controller('FormController',function($scope, $http){
+.controller('JSONController',function($scope, $http){
 	// $scope.Tags=[
 	// {KeyValue:'No1',CN:'服务器',EN:'Server',Field:'common'},
 	// {KeyValue:'No2',CN:'云',EN:'Cloud',Field:'main'},
@@ -50,26 +50,48 @@ angular.module('myModule', [], function($httpProvider) {
 	// {KeyValue:'No4',CN:'客户端',EN:'Client',Field:'SAAS'}
 	// ];
 	$scope.Tags = [];
-	$scope.tagstatus = false;
-	$scope.saveTag = function() {
-		$scope.tagstatus = false;
+	//$scope.Tag.$edit = false;
+	var newTag = {KeyValue:"",CN:"",EN:"",Field:""};
+	var oldTag = {KeyValue:"",CN:"",EN:"",Field:""};
+
+	$scope.saveTag = function(Tag) {
+		newTag.KeyValue = Tag.KeyValue;
+		newTag.CN = Tag.CN;
+		newTag.EN = Tag.EN;
+		newTag.Field = Tag.Field;
+		console.log(newTag);
+		if( (newTag.KeyValue !== oldTag.KeyValue) || (newTag.CN !== oldTag.CN) || (newTag.EN !== oldTag.EN) || (newTag.Field !== oldTag.Field) ){
+			console.log("success");
+			var method = 'http://127.0.0.1:8081/saveTag';
+			var Tag = newTag;
+			POST(method, Tag);
+		}
 	}
 
-	$scope.editTag = function() {
-		$scope.tagstatus = true;
+	$scope.editTag = function(Tag) {
+		oldTag.KeyValue = Tag.KeyValue;
+		oldTag.CN = Tag.CN;
+		oldTag.EN = Tag.EN;
+		oldTag.Field = Tag.Field;
+		console.log(oldTag);
 	}
 
-	$scope.deleteTag = function(student){
-		$scope.tagstatus = false;
+	$scope.deleteTag = function(Tag){
 		//$scope.Tags.splice($scope.students.indexOf(student),1);
 		//$scope.student.splice(index,1);//删除选中的一行
+		newTag.KeyValue = Tag.KeyValue;
+		newTag.CN = Tag.CN;
+		newTag.EN = Tag.EN;
+		newTag.Field = Tag.Field;
+		console.log(newTag);
+		var method = 'http://127.0.0.1:8081/deleteTag';
+		var Tag = newTag;
+		POST(method, Tag);
 	};
 
 	$scope.addTag=function(){
 		if( $scope.newKeyValue || $scope.newCN || $scope.newEN || $scope.newField){
-			$scope.Tags.push({KeyValue: $scope.newKeyValue, CN:$scope.newCN, EN:$scope.newEN, Field:$scope.newField});
-
-			var newTag = {KeyValue:"",CN:"",EN:"",Field:""};
+			$scope.Tags.push({KeyValue: $scope.newKeyValue, CN:$scope.newCN, EN:$scope.newEN, Field:$scope.newField});	
 			newTag.KeyValue = $scope.newKeyValue;
 			newTag.CN = $scope.newCN;
 			newTag.EN = $scope.newEN;
