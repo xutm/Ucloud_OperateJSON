@@ -28,11 +28,9 @@ con.connect(function(err){
 });
 
 //Reading---------------------------------------------
-var rows_readData;
 function Read(){
 	con.query('SELECT * FROM ucloud_datas',function(err,rows){
 		if(err) throw err;
-		rows_readData = rows;
 	});
 }
 
@@ -94,7 +92,8 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));// parse applicat
 
 // // application -------------------------------------------------------------
 // app.get('*', function(req, res) {
-// 	res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
+// 	console.log(__dirname + '\..\client\index.html');
+// 	res.sendFile(__dirname + '\..\client\index.html'); // load the single view file (angular will handle the page changes on the front-end)
 // });
 
 //update Tag when receive the commend from front end---------------------------------
@@ -132,13 +131,32 @@ app.post('/deleteTag', urlencodedParser, function (req, res) {
 
 //send to client--------------------------------------------
 app.get('/loadData', function (req, res) {
-	Read();
-	res.json(rows_readData);// return JSON format
+	con.query('SELECT * FROM ucloud_datas',function(err,rows){
+		if(err) throw err;
+		res.json(rows);// return JSON format
+	});
 })
 
+var EN_res = {};//EN_res[key] = keyvalue;
+var CN_res = {};//CN[key] = keyvalue;
 //receive from client---------------------------------------
 app.post('/process_post', urlencodedParser, function (req, res) {
-	console.log(req.body);
+	con.query('select * from ucloud_datas  ', function(err, results, fields){
+		if (err) throw err;
+		console.log(results.length);
+		for(var i = 0; i < results.length; i++){
+			EN_res[results[i].KeyValue] = results[i].EN;
+			CN_res[results[i].KeyValue] = results[i].CN;
+		}
+		fs.writeFile('xutm_EN.json', JSON.stringify(EN_res), function (err){
+			if (err) throw err;
+			console.log("EN_Saved!");
+		});
+		fs.writeFile('xutm_CN.json', JSON.stringify(CN_res), function (err){
+			if (err) throw err;
+			console.log("CN_Saved!");
+		});		
+	});	
 	res.json("success");
 })
 
