@@ -112,29 +112,19 @@ angular.module('myModule', [], function($httpProvider) {
 			.success(function(data){
 				$scope.Tags = data;
 				console.log(data);
-				// for(var key in data){ 
-				// 	console.log(key); console.log(data[key]);//这个就是value 
-				// }
 			})
 			.error(function(data){
 				console.log('Error: ' + data);
 			});
 	};
 
-	$scope.tm="xtm";
-	$scope.sendData = function() {
-		console.log($scope.tm);
-		var data1 = {tm: $scope.tm};
-		$http.post('http://127.0.0.1:8081/process_post', data1)
-			.success(function(data){
-				console.log(data); 
-			})
-			.error(function(data){
-				console.log('Error: ' + data);
-			});
+	$scope.outputJsonFile = function() {
+		var method = 'http://127.0.0.1:8081/outputJsonFile';
+		var Tag = newTag;
+		POST(method, Tag);	
 	};
 
-	function POST(method, Tag){
+	function POST(method, Tag){//method=>string;Tag=>object;
 		$http.post(method, Tag)
 			.success(function(data){
 				console.log(data); 
