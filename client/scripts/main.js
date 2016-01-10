@@ -118,6 +118,12 @@ angular.module('myModule', [], function($httpProvider) {
 			});
 	};
 
+	$scope.inputJsonFile = function() {
+		var method = 'http://127.0.0.1:8081/inputJsonFile';
+		var Tag = newTag;
+		POST(method, Tag);			
+	}
+
 	$scope.outputJsonFile = function() {
 		var method = 'http://127.0.0.1:8081/outputJsonFile';
 		var Tag = newTag;

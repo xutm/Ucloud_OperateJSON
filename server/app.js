@@ -66,38 +66,105 @@ function Destroy(con, destroyTag){
 	});
 }
 
-//input the en_US.json & zh_CN.json into the mysql==========================
-// _.each(EN_data, function(value, key){
-// 	addTag.KeyValue = key;
-// 	addTag.EN = value;
-// 	//Create Table
-// 	Create(addValue);
-// });
+function handle_createTable() {
+	pool.getConnection(function(err,con){//delete Ucloud_datas
+		if (err) {
+			con.release();
+			//res.json({"code" : 100, "status" : "Error in con database"});
+			console.log("false");
+			return;
+		}   
+		console.log('connected as id ' + con.threadId);
 
-// con.query('SELECT * FROM ucloud_datas',function(err,rows){
-// 	if(err) throw err;
-// 	//console.log(rows);
-// 	_.each(EN_data,function(value, key){
-// 		var flag = 0;
-// 		for(var i = 0; i < rows.length; i++){
-// 			if( key === rows[i].KeyValue) {
-// 				flag = 1;
-// 				break;
-// 			}
-// 		}
-// 		if(flag){//update
-// 			updateTag.KeyValue = key;
-// 			updateTag.EN = value;
-// 			Update();
-// 		}	
-// 		// }else{//create
-// 		// 	addTag.KeyValue = key;
-// 		// 	addTag.EN = value;
-// 		// 	Create();
-// 		// }
-// 	});
-// 	console.log("1_tm_button");	
-// });
+		var sql = " DROP TABLE IF EXISTS Ucloud_datas ";
+		con.query(sql,function(err, rows){
+			con.release();
+			if(!err) {
+				console.log("delete table Ucloud_datas success");
+			}           
+		});
+
+		con.on('error', function(err) {      
+			//res.json({"code" : 100, "status" : "Error in con database"});
+			console.log("false");
+			return;     
+		});
+	});
+	pool.getConnection(function(err,con){//create a new tables
+		if (err) {
+			con.release();
+			//res.json({"code" : 100, "status" : "Error in con database"});
+			console.log("false");
+			return;
+		}   
+		console.log('connected as id ' + con.threadId);
+
+		sql = ' CREATE TABLE Ucloud_datas(KeyValue varchar(50),CN TEXT, EN TEXT, Field varchar(50) ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ';
+		con.query(sql,function(err, rows){
+			con.release();
+			if(!err) {
+				console.log("create table Ucloud_datas success");
+			}           
+		});
+
+		con.on('error', function(err) {      
+			//res.json({"code" : 100, "status" : "Error in con database"});
+			console.log("false");
+			return;     
+		});
+	});
+}
+handle_createTable();
+
+//input the en_US.json & zh_CN.json into the mysql==========================
+function handle_inputJsonFile(req, res, sql, values) {
+	pool.getConnection(function(err,con){//add EN_data
+		if (err) {
+			con.release();
+			res.json({"code" : 100, "status" : "Error in con database"});
+			return;
+		}
+		console.log('connected as id ' + con.threadId);
+
+		//Create(con, addTag);
+		con.query(sql, [values], function(err) {
+			con.release();
+			if (err) throw err;
+		});    
+
+		con.on('error', function(err) {      
+			res.json({"code" : 100, "status" : "Error in con database"});
+			return;
+		});
+	});
+}
+app.post('/inputJsonFile', urlencodedParser, function (req, res) {
+	var sql = "INSERT INTO Ucloud_datas (KeyValue, CN, EN, Field) VALUES ?";
+	var values = [];
+	//console.log(EN_data);            problem: save the last value
+	_.each(EN_data, function(value, key){
+		values.push([key, '', value, '']);
+	});
+	_.each(CN_data, function(value, key){
+		var flag = 0;
+		for(var i = 0; i < values.length; i++){
+			if(key === values[i][0]){
+				flag = 1;
+				values[i][1] = value;
+				break;
+			}
+		}
+		if(!flag){
+			values.push([key, value, '', '']);
+			flag = 0;
+		}
+	});	
+	handle_inputJsonFile(req, res, sql, values)	
+	//console.log(values);
+	console.log(values[1]);
+	console.log(values.length);
+	res.json("success");
+})
 
 //update Tag when receive the commend from front end---------------------------------   
 function handle_saveTag(req, res, updateTag) {
@@ -187,6 +254,7 @@ function handle_loadData(req, res) {
 		}   
 		console.log('connected as id ' + con.threadId);
 		con.query('SELECT * FROM ucloud_datas',function(err,rows){
+			con.release();
 			if(err) throw err;
 			res.json(rows);// return JSON format
 		});        
@@ -212,6 +280,7 @@ function handle_outputJsonFile(req, res) {
 		}   
 		console.log('connected as id ' + con.threadId);
 		con.query('select * from ucloud_datas  ', function(err, results, fields){
+			con.release();
 			if (err) throw err;
 			console.log(results.length);
 			for(var i = 0; i < results.length; i++){
