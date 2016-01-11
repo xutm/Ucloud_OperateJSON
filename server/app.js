@@ -33,7 +33,7 @@ var pool = mysql.createPool({
 
 //Reading---------------------------------------------
 function Read(con){
-	con.query('SELECT * FROM ucloud_datas',function(err,rows){
+	con.query('SELECT * FROM Ucloud_datas',function(err,rows){
 		con.release();		
 		if(err) throw err;
 	});
@@ -42,7 +42,7 @@ function Read(con){
 //Creating-----------------------------------------------
 var addTag = {KeyValue:"",CN:"",EN:"",Field:""};
 function Create(con, addTag){
-	con.query('INSERT INTO ucloud_datas SET ?', addTag, function(err, res){
+	con.query('INSERT INTO Ucloud_datas SET ?', addTag, function(err, res){
 		con.release();	
 		if(err) throw err;
 	});
@@ -51,7 +51,7 @@ function Create(con, addTag){
 //Updating----------------------------------------------
 var updateTag = {KeyValue:"",CN:"",EN:"",Field:""};
 function Update(con, updateTag){
-	con.query('UPDATE ucloud_datas SET CN = ?,EN = ?,Field = ? WHERE KeyValue = ?', [updateTag.CN, updateTag.EN, updateTag.Field, updateTag.KeyValue], function (err, result) {
+	con.query('UPDATE Ucloud_datas SET CN = ?,EN = ?,Field = ? WHERE KeyValue = ?', [updateTag.CN, updateTag.EN, updateTag.Field, updateTag.KeyValue], function (err, result) {
 		con.release();	
 		if (err) throw err;
 	});
@@ -60,7 +60,7 @@ function Update(con, updateTag){
 //Destroying---------------------------------------------
 var destroyTag = {KeyValue:"",CN:"",EN:"",Field:""};
 function Destroy(con, destroyTag){
-	con.query('DELETE FROM ucloud_datas WHERE KeyValue = ?', [destroyTag.KeyValue], function(err, result){
+	con.query('DELETE FROM Ucloud_datas WHERE KeyValue = ?', [destroyTag.KeyValue], function(err, result){
 		con.release();	
 		if(err) throw err;
 	});
@@ -255,7 +255,7 @@ function handle_loadData(req, res) {
 			return;
 		}   
 		console.log('connected as id ' + con.threadId);
-		con.query('SELECT * FROM ucloud_datas',function(err,rows){
+		con.query('SELECT * FROM Ucloud_datas',function(err,rows){
 			con.release();
 			if(err) throw err;
 			res.json(rows);// return JSON format
@@ -281,7 +281,7 @@ function handle_outputJsonFile(req, res) {
 			return;
 		}   
 		console.log('connected as id ' + con.threadId);
-		con.query('select * from ucloud_datas  ', function(err, results, fields){
+		con.query('select * from Ucloud_datas  ', function(err, results, fields){
 			con.release();
 			if (err) throw err;
 			console.log(results.length);
