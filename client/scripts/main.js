@@ -43,14 +43,7 @@ angular.module('myModule', [], function($httpProvider) {
 	}];
 })
 .controller('JSONController',function($scope, $http){
-	// $scope.Tags=[
-	// {KeyValue:'No1',CN:'服务器',EN:'Server',Field:'common'},
-	// {KeyValue:'No2',CN:'云',EN:'Cloud',Field:'main'},
-	// {KeyValue:'No3',CN:'主机',EN:'Main Engine',Field:'CDN'},
-	// {KeyValue:'No4',CN:'客户端',EN:'Client',Field:'SAAS'}
-	// ];
 	$scope.Tags = [];
-	//$scope.Tag.$edit = false;
 	var newTag = {KeyValue:"",CN:"",EN:"",Field:""};
 	var oldTag = {KeyValue:"",CN:"",EN:"",Field:""};
 
@@ -77,8 +70,13 @@ angular.module('myModule', [], function($httpProvider) {
 	}
 
 	$scope.deleteTag = function(Tag){
-		//$scope.Tags.splice($scope.students.indexOf(student),1);
-		//$scope.student.splice(index,1);//删除选中的一行
+		var index = 0;
+		for(var i = 0; i < $scope.Tags.length; i++){
+			if(Tag.KeyValue === $scope.Tags[i].KeyValue){
+				index = i;
+			}
+		}
+		$scope.Tags.splice(index,1);
 		newTag.KeyValue = Tag.KeyValue;
 		newTag.CN = Tag.CN;
 		newTag.EN = Tag.EN;
@@ -90,8 +88,20 @@ angular.module('myModule', [], function($httpProvider) {
 	};
 
 	$scope.addTag=function(){
-		if( $scope.newKeyValue || $scope.newCN || $scope.newEN || $scope.newField){
-			$scope.Tags.push({KeyValue: $scope.newKeyValue, CN:$scope.newCN, EN:$scope.newEN, Field:$scope.newField});	
+		if(!$scope.newKeyValue){
+			alert("Please input KeyValue!");
+		}
+		if(!$scope.newCN){
+			alert("Please input CN!");
+		}
+		if(!$scope.newEN){
+			alert("Please input EN!");
+		}
+		if(!$scope.newField){
+			alert("Please input Field!");
+		}
+		if( $scope.newKeyValue && $scope.newCN && $scope.newEN && $scope.newField){
+			$scope.Tags.push({KeyValue: $scope.newKeyValue, CN: $scope.newCN, EN: $scope.newEN, Field: $scope.newField});	
 			newTag.KeyValue = $scope.newKeyValue;
 			newTag.CN = $scope.newCN;
 			newTag.EN = $scope.newEN;
