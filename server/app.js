@@ -76,11 +76,13 @@ function handle_createTable() {
 		}   
 		console.log('connected as id ' + con.threadId);
 
-		var sql = " DROP TABLE IF EXISTS Ucloud_datas ";
+		//var sql = " DROP TABLE IF EXISTS Ucloud_datas ";
+		var sql = "DELETE FROM Ucloud_datas"
 		con.query(sql,function(err, rows){
+			console.log(rows);
 			con.release();
 			if(!err) {
-				console.log("delete table Ucloud_datas success");
+				console.log("delete the data of Ucloud_datas ");
 			}           
 		});
 
@@ -90,29 +92,29 @@ function handle_createTable() {
 			return;     
 		});
 	});
-	pool.getConnection(function(err,con){//create a new tables
-		if (err) {
-			con.release();
-			//res.json({"code" : 100, "status" : "Error in con database"});
-			console.log("false");
-			return;
-		}   
-		console.log('connected as id ' + con.threadId);
+	// pool.getConnection(function(err,con){//create a new tables
+	// 	if (err) {
+	// 		con.release();
+	// 		//res.json({"code" : 100, "status" : "Error in con database"});
+	// 		console.log("false");
+	// 		return;
+	// 	}   
+	// 	console.log('connected as id ' + con.threadId);
 
-		sql = ' CREATE TABLE Ucloud_datas(KeyValue varchar(50),CN TEXT, EN TEXT, Field varchar(50) ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ';
-		con.query(sql,function(err, rows){
-			con.release();
-			if(!err) {
-				console.log("create table Ucloud_datas success");
-			}           
-		});
+	// 	sql = ' CREATE TABLE Ucloud_datas(KeyValue varchar(50),CN TEXT, EN TEXT, Field varchar(50) ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ';
+	// 	con.query(sql,function(err, rows){
+	// 		con.release();
+	// 		if(!err) {
+	// 			console.log("create table Ucloud_datas success");
+	// 		}           
+	// 	});
 
-		con.on('error', function(err) {      
-			//res.json({"code" : 100, "status" : "Error in con database"});
-			console.log("false");
-			return;     
-		});
-	});
+	// 	con.on('error', function(err) {      
+	// 		//res.json({"code" : 100, "status" : "Error in con database"});
+	// 		console.log("false");
+	// 		return;     
+	// 	});
+	// });
 }
 handle_createTable();
 
@@ -308,6 +310,6 @@ app.post('/outputJsonFile', urlencodedParser, function (req, res) {
 })
 
 //listen (start app with node server.js)==============
-var server = app.listen(8081, function () {
+var server = app.listen(3000, function () {
 	console.log("Server Up");
 })

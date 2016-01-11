@@ -55,7 +55,7 @@ angular.module('myModule', [], function($httpProvider) {
 		console.log(newTag);
 		if( (newTag.KeyValue !== oldTag.KeyValue) || (newTag.CN !== oldTag.CN) || (newTag.EN !== oldTag.EN) || (newTag.Field !== oldTag.Field) ){
 			console.log("success");
-			var method = 'http://127.0.0.1:8081/saveTag';
+			var method = 'http://127.0.0.1:3000/saveTag';
 			var Tag = newTag;
 			POST(method, Tag);
 		}
@@ -82,7 +82,7 @@ angular.module('myModule', [], function($httpProvider) {
 		newTag.EN = Tag.EN;
 		newTag.Field = Tag.Field;
 		console.log(newTag);
-		var method = 'http://127.0.0.1:8081/deleteTag';
+		var method = 'http://127.0.0.1:3000/deleteTag';
 		var Tag = newTag;
 		POST(method, Tag);
 	};
@@ -107,7 +107,7 @@ angular.module('myModule', [], function($httpProvider) {
 			newTag.EN = $scope.newEN;
 			newTag.Field = $scope.newField;
 			console.log(newTag);
-			var method = 'http://127.0.0.1:8081/addTag';
+			var method = 'http://127.0.0.1:3000/addTag';
 			var Tag = newTag;
 			POST(method, Tag);	
 			$scope.newKeyValue = '';
@@ -118,7 +118,7 @@ angular.module('myModule', [], function($httpProvider) {
 	};
 
 	$scope.loadData = function() {
-		$http.get('http://127.0.0.1:8081/loadData')
+		$http.get('http://127.0.0.1:3000/loadData')
 			.success(function(data){
 				$scope.Tags = data;
 				console.log(data);
@@ -129,13 +129,13 @@ angular.module('myModule', [], function($httpProvider) {
 	};
 
 	$scope.inputJsonFile = function() {
-		var method = 'http://127.0.0.1:8081/inputJsonFile';
+		var method = 'http://127.0.0.1:3000/inputJsonFile';
 		var Tag = newTag;
 		POST(method, Tag);			
 	}
 
 	$scope.outputJsonFile = function() {
-		var method = 'http://127.0.0.1:8081/outputJsonFile';
+		var method = 'http://127.0.0.1:3000/outputJsonFile';
 		var Tag = newTag;
 		POST(method, Tag);	
 	};
