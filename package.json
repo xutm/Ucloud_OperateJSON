@@ -4,6 +4,10 @@
   "dependencies": {
     "gulp": "~3.9.0",
     "gulp-less": "~3.0.3",
-    "less-plugin-clean-css": "*"
+    "less-plugin-clean-css": "*",
+    "body-parser": "^1.14.2",
+    "express": "^4.13.3",
+    "mysql": "^2.10.0",
+    "underscore": "^1.8.3"
   }
 }

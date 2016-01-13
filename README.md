@@ -39,15 +39,19 @@
 #How to use Ucloud_OperateJSON 
 	1,git clone https://github.com/xutm/Ucloud_OperateJSON.git
 
-	2,cd Ucloud_OperateJSON && server
+	2,cd Ucloud_OperateJSON
 
 	3,npm install
 
-	4,open two commend terminal
-		one commend: cd Ucloud_OperateJSON && server
-				node app.js
-		one commend: cd Ucloud_OperateJSON && operateJSON
-				open index.html in explorer
+	4,gulp
+
+	5,cd server && node app.js
+
+	6.open the index.html in explorer
+
+	note: 1.The InputJson button: be used to import the en_US.json and zh_CN.json to the MySQL.
+	         2.The OutputJson button: be used to export the data of MySQL to the en_US.json and zh_CN.json
+	         3.The LodaAllTags button: be used to import the data of MySQL to client.
 
 #MySQL
 	1,CREATE DATABASE ucloud;
@@ -60,12 +64,13 @@
 		Field varchar(50)
 	) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
-	5,base function
+	note: Base function to operate MySQL
 		(1)show databases;
 		(2)create database <database name>;
 		(3)use <database name>
 		(4)show tables;
 		(5)select * from <table>;
+		(6)mysql -uroot -p
 	http://www.sitepoint.com/using-node-mysql-javascript-client/
 	http://database.51cto.com/art/201005/201989.htm
 
