@@ -44,27 +44,31 @@ input.form-control{
   .action-wrap{
     position: absolute;
     bottom: 0;
-    right: 300px;
+    right: 0;
     .btn{
+      margin: 0 10px;
       border-bottom: none;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
+      &:last-of-type{
+        margin-right: 0;
+      }
     }
   }
-  .search-wrap{
+}
+.search-wrap{
+  position: absolute;
+  width: 220px;
+  height: 27px;
+  right: 0;
+  top: 50%;
+  margin-top: -13px;
+  .glyphicon-search{
     position: absolute;
-    width: 220px;
-    height: 27px;
-    right: 0;
+    right: 10px;
     top: 50%;
-    margin-top: -13px;
-    .glyphicon-search{
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      margin-top: -8px;
-      color: #cccccc;
-    }
+    margin-top: -8px;
+    color: #cccccc;
   }
   .lfms-input{
     position: absolute;
@@ -99,10 +103,18 @@ input.form-control{
   padding: 0;
 }
 .lfms-form-header{
+  position: relative;
   padding: 20px 15px;
   font-size: 17px;
   border-bottom: 1px solid #cccccc;
   background-color: #f7f8fa;
+  .search-wrap{
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    margin-top: -13px;
+    font-size: 14px;
+  }
 }
 .lfms-form-action{
   padding: 20px 15px;
@@ -127,5 +139,5 @@ input.form-control{
   }
 }
 .tb-btn-action{
-  width: 150px;
+  width: 210px;
 }
