@@ -1,0 +1,143 @@
+.btn{
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  -webkit-transition: all .1s;
+  -moz-transition: all .1s;
+  -ms-transition: all .1s;
+  -o-transition: all .1s;
+  transition: all .1s;
+  &:hover{
+    color: #ffffff;
+    background-color: #00ba8b;
+    border-color: #00ba8b;
+  }
+  &:active,&:focus{
+    outline: none;
+  }
+}
+input.form-control{
+  border-radius: 0;
+  box-shadow: none;
+  &:focus{
+    box-shadow: none;
+    border-color: #00ba8b;
+  }
+}
+.lfms-header{
+  border-top: 10px solid #00ba8b;
+  border-bottom: 1px solid #b2afaa;
+  .container{
+    position: relative;
+    padding: 10px;
+  }
+  h1{
+    margin: 0;
+  }
+  .title{
+    font-size: 20px;
+    line-height: 20px;
+  }
+  small{
+    font-size: 14px;
+    color: #b2afaa;
+  }
+  .action-wrap{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    .btn{
+      margin: 0 10px;
+      border-bottom: none;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      &:last-of-type{
+        margin-right: 0;
+      }
+    }
+  }
+}
+.search-wrap{
+  position: absolute;
+  width: 220px;
+  height: 27px;
+  right: 0;
+  top: 50%;
+  margin-top: -13px;
+  .glyphicon-search{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -8px;
+    color: #cccccc;
+  }
+  .lfms-input{
+    position: absolute;
+    width: 190px;
+    height: 27px;
+    top: 0;
+    right: 0;
+    border: 1px solid #cccccc;
+    border-radius: 13px;
+    -webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+    &:hover,&:focus{
+      width: 220px;
+      border-color: #00ba8b;
+    }
+  }
+}
+.lfms-input{
+  display: inline-block;
+  padding: 3px 10px;
+  height: 25px;
+  width: 100px;
+  outline: none;
+  border: none;
+}
+.lfms-form{
+  margin: 15px auto;
+  border: 1px solid #cccccc;
+  padding: 0;
+}
+.lfms-form-header{
+  position: relative;
+  padding: 20px 15px;
+  font-size: 17px;
+  border-bottom: 1px solid #cccccc;
+  background-color: #f7f8fa;
+  .search-wrap{
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    margin-top: -13px;
+    font-size: 14px;
+  }
+}
+.lfms-form-action{
+  padding: 20px 15px;
+  border-top: 1px solid #cccccc;
+  background-color: #f7f8fa;
+}
+.lfms-form-body{
+  padding: 15px;
+}
+.lfms-tb-wrap{
+  position: relative;
+  max-height: 400px;
+  overflow-x: hidden;
+  table{
+    table-layout: fixed;
+    width: 100%;
+    tr{
+      th,td{
+        vertical-align: middle;
+      }
+    }
+  }
+}
+.tb-btn-action{
+  width: 210px;
+}
