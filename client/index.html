@@ -76,7 +76,7 @@
 	<div class="lfms-form-header">
 		<button class="btn" ng-disabled="currentPage <= 1" ng-click="currentPage = currentPage - 1"><<</button>
 		<button class="btn" ng-disabled="currentPage >= numberOfPages() + 1" ng-click="currentPage = currentPage + 1">>></button>
-		Page {{currentPage}} of {{numberOfPages() + 1}} 
+		Page {{currentPage}} of {{maxPage}} 
 		<div class="search-wrap">
 			<input type='text' class="lfms-input" ng-model="Page" placeholder="Please Input the Page" title="Please Input the Page">
 			<span class="glyphicon glyphicon-search" ng-click="changePage()"></span>
@@ -88,7 +88,7 @@
 			<span class="glyphicon glyphicon-list-alt"></span>
 			Data list
 			<div class="search-wrap">
-				<input type='text' class="lfms-input" ng-model="keyValueFilter" placeholder="Please Input Key Value" title="Please Input Key Value" ng-click="currentPage = 1">
+				<input type='text' class="lfms-input" ng-model="keyValueFilter" placeholder="Please Input Key Value" title="Please Input Key Value">
 				<span class="glyphicon glyphicon-search"></span>
 			</div>
 		</div>
@@ -104,7 +104,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="Tag in Tags | filter:keyValueFilter | startFrom: (currentPage - 1)*pageSize | limitTo:pageSize">
+					<tr ng-repeat="Tag in Tags | filter:keyValueFilter | startFrom: (currentPage - 1)*pageSize : this | limitTo:pageSize">
 						<td title="KeyValue">
 							<span ng-show="!Tag.$edit" title = {{Tag.KeyValue}}>{{Tag.KeyValue}}</span>
 							<div ng-show="Tag.$edit" title = {{Tag.KeyValue}}><input type="text" ng-model="Tag.KeyValue" class="form-control"></div>

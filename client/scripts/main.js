@@ -49,19 +49,32 @@ angular.module('myModule', [], function($httpProvider) {
 	$scope.currentPage = 1;
 	$scope.pageSize = 10;
 	$scope.addKeyValueFlag = 0;
+	$scope.maxPage = 1;
+
+	$scope.$watch('keyValueFilter', function(){
+		$scope.currentPage = 1;
+		//console.log("success_tm");
+	}, true);
+
   
 	$scope.numberOfPages = function(){
-		return Math.floor($scope.Tags.length/$scope.pageSize);         
+		return Math.floor($scope.Tags.length/$scope.pageSize) + 1;   
 	};
 
 	$scope.changePage = function(){
-		if( parseInt($scope.Page) > 0 && parseInt($scope.Page) <= ( Math.floor($scope.Tags.length/$scope.pageSize)+ 1)){
+		if( parseInt($scope.Page) > 0 && parseInt($scope.Page) <= $scope.maxPage){
 			$scope.currentPage = parseInt($scope.Page);
 		}else{
 			alert("The number is wrong");
 		}
 		$scope.Page = "";
 	};
+
+	$scope.searchByKeyValue = function(){
+		if($scope.keyValueFilter){
+			$scope.currentPage = 1;
+		}
+	}
 
 	$scope.saveTag = function(Tag) {
 		newTag.KeyValue = Tag.KeyValue;
@@ -71,7 +84,7 @@ angular.module('myModule', [], function($httpProvider) {
 		console.log(newTag);
 		if( (newTag.KeyValue !== oldTag.KeyValue) || (newTag.CN !== oldTag.CN) || (newTag.EN !== oldTag.EN) || (newTag.Field !== oldTag.Field) ){
 			console.log("success");
-			var method = 'http://172.16.2.100:4011/saveTag';
+			var method = 'http://127.0.0.1:4011/saveTag';
 			var Tag = newTag;
 			POST(method, Tag);
 		}
@@ -98,7 +111,7 @@ angular.module('myModule', [], function($httpProvider) {
 		newTag.EN = Tag.EN;
 		newTag.Field = Tag.Field;
 		console.log(newTag);
-		var method = 'http://172.16.2.100:4011/deleteTag';
+		var method = 'http://127.0.0.1:4011/deleteTag';
 		var Tag = newTag;
 		POST(method, Tag);
 	};
@@ -123,7 +136,7 @@ angular.module('myModule', [], function($httpProvider) {
 			newTag.EN = $scope.newEN;
 			newTag.Field = $scope.newField;
 			console.log(newTag);
-			var method = 'http://172.16.2.100:4011/addTag';
+			var method = 'http://127.0.0.1:4011/addTag';
 			var Tag = newTag;
 			POST(method, Tag);	
 			$scope.newKeyValue = '';
@@ -134,9 +147,10 @@ angular.module('myModule', [], function($httpProvider) {
 	};
 
 	$scope.loadData = function() {
-		$http.get('http://172.16.2.100:4011/loadData')
+		$http.get('http://127.0.0.1:4011/loadData')
 			.success(function(data){
 				$scope.Tags = data;
+				$scope.maxPage = Math.floor($scope.Tags.length/$scope.pageSize) + 1;
 				console.log(data);
 			})
 			.error(function(data){
@@ -145,13 +159,13 @@ angular.module('myModule', [], function($httpProvider) {
 	};
 
 	$scope.inputJsonFile = function() {
-		var method = 'http://172.16.2.100:4011/inputJsonFile';
+		var method = 'http://127.0.0.1:4011/inputJsonFile';
 		var Tag = newTag;
 		POST(method, Tag);		
 	}
 
 	$scope.outputJsonFile = function() {
-		var method = 'http://172.16.2.100:4011/outputJsonFile';
+		var method = 'http://127.0.0.1:4011/outputJsonFile';
 		var Tag = newTag;
 		POST(method, Tag);	
 	};
@@ -168,8 +182,9 @@ angular.module('myModule', [], function($httpProvider) {
 			});		
 	}
 }).filter('startFrom', function() {
-	return function(input, start) {
+	return function(input, start, scope) {
 		start = +start;
+		scope.maxPage = Math.floor(input.length/scope.pageSize) + 1;
 		return input.slice(start);
 	};
 });
