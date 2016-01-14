@@ -48,16 +48,17 @@ angular.module('myModule', [], function($httpProvider) {
 	var oldTag = {KeyValue:"",CN:"",EN:"",Field:""};
 	$scope.currentPage = 1;
 	$scope.pageSize = 10;
+	$scope.addKeyValueFlag = 0;
   
 	$scope.numberOfPages = function(){
-		return Math.floor($scope.Tags.length/$scope.pageSize);                
+		return Math.floor($scope.Tags.length/$scope.pageSize);         
 	};
 
 	$scope.changePage = function(){
 		if( parseInt($scope.Page) > 0 && parseInt($scope.Page) <= ( Math.floor($scope.Tags.length/$scope.pageSize)+ 1)){
 			$scope.currentPage = parseInt($scope.Page);
 		}else{
-			alert("The number is wrong");	
+			alert("The number is wrong");
 		}
 		$scope.Page = "";
 	};
@@ -168,7 +169,7 @@ angular.module('myModule', [], function($httpProvider) {
 	}
 }).filter('startFrom', function() {
 	return function(input, start) {
-		start = +start; 	
+		start = +start;
 		return input.slice(start);
 	};
 });

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="myModule">
+<html>
 <head>
 	<meta charset='utf-8'>
 	<title>Ucloud</title>
@@ -35,11 +35,11 @@
 		</div>
 	</div>
 	<div class="lfms-form container">
-		<div class="lfms-form-header">
-			<span class="glyphicon glyphicon-file"></span>
+		<div class="lfms-form-header" ng-click="addKeyValueFlag = !addKeyValueFlag">
+			<span class="glyphicon glyphicon-file" ng-class="addFlag"></span>
 			Add new item to file
 		</div>
-		<div class="lfms-form-body form-horizontal">
+		<div class="lfms-form-body form-horizontal" ng-show="addKeyValueFlag">
 			<div class="form-group">
 				<label class="col-sm-2 control-label">KeyValue</label>
 				<div class="col-sm-10">
@@ -61,11 +61,11 @@
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Field</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" ng-model="newField" placeholder="input Field" required/>
+					<input type="text" class="form-control" ng-model="newField" placeholder="input Field"/>
 				</div>
 			</div>
 		</div>
-		<div class="lfms-form-action">
+		<div class="lfms-form-action" ng-show="addKeyValueFlag">
 			<button ng-click="addTag()" class="btn btn-default">
 				<span class="glyphicon glyphicon-plus"></span>
 				AddNewKeyValue
@@ -88,7 +88,7 @@
 			<span class="glyphicon glyphicon-list-alt"></span>
 			Data list
 			<div class="search-wrap">
-				<input type='text' class="lfms-input" ng-model="keyValueFilter" placeholder="Please Input Key Value" title="Please Input Key Value">
+				<input type='text' class="lfms-input" ng-model="keyValueFilter" placeholder="Please Input Key Value" title="Please Input Key Value" ng-click="currentPage = 1">
 				<span class="glyphicon glyphicon-search"></span>
 			</div>
 		</div>
@@ -145,4 +145,7 @@
 	</div>
 </div>
 </body>
+<script type="text/javascript">
+	angular.bootstrap(document, ['myModule']);
+</script>
 </html>
