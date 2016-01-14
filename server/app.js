@@ -1,12 +1,13 @@
 //set up===========================
+var configData = require("../config.json");
+var EN_data = require(configData. pathOfJsonFile+ "en_US.json");
+var CN_data = require(configData. pathOfJsonFile + "zh_CN.json");
 var mysql = require("mysql");
 var express = require('express');
 var bodyParser = require('body-parser');    // pull information from HTML POST (express4)
 var app = express();         // create our app w/ express
 var fs = require("fs");
 var urlencodedParser = bodyParser.urlencoded({ extended: false })// Create application/x-www-form-urlencoded parser
-var EN_data = require("./locale/build/en_US.json");
-var CN_data = require("./locale/build/zh_CN.json");
 var _ = require("underscore");
 
 app.use(express.static('public'));
@@ -21,13 +22,13 @@ app.use(bodyParser.urlencoded({'extended':'true'}));// parse application/x-www-f
 app.use(bodyParser.json());// parse application/json
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));// parse application/vnd.api+json as json
 
-// create a connection to the mysql---------
+// create a connection to the mysql----------------
 var pool = mysql.createPool({
 	connectionLimit: 100,
-	host: "localhost",
-	user: "root",
-	password: "",
-	database: "ucloud",
+	host: configData.host,
+	user: configData.user,
+	password: configData.password,
+	database: configData.database,
 	debug: false
 });
 
@@ -165,7 +166,7 @@ app.post('/inputJsonFile', urlencodedParser, function (req, res) {
 	//console.log(values);
 	console.log(values[1]);
 	console.log(values.length);
-	res.json("success");
+	res.json("JsonFile has been input");
 })
 
 //update Tag when receive the commend from front end---------------------------------   
@@ -192,7 +193,7 @@ app.post('/saveTag', urlencodedParser, function (req, res) {
 	console.log(updateTag);
 	//Update Table    var updateTag = {KeyValue:"-1",CN:"天明",EN:"tomorrows",Field:"USST"};
 	handle_saveTag(req, res, updateTag);
-	res.json("success");	
+	res.json(updateTag.KeyValue + " has been saved");	
 });
 
 //insert Tag when receive the commend from front end-----------------------------------
@@ -219,7 +220,7 @@ app.post('/addTag', urlencodedParser, function (req, res) {
 	addTag.Field = req.body.Field;
 	console.log(addTag);
 	handle_addTag(req, res, addTag);
-	res.json("success");
+	res.json(addTag.KeyValue + " has been added");
 });
 
 //destroy Tag when receive the commend from front end----------------------------------
@@ -243,7 +244,7 @@ app.post('/deleteTag', urlencodedParser, function (req, res) {
 	destroyTag.KeyValue = req.body.KeyValue;
 	console.log(destroyTag.KeyValue);
 	handle_deleteTag(req, res, destroyTag);
-	res.json("success");
+	res.json(destroyTag.KeyValue + " has been deleted");
 });
 
 //send to client--------------------------------------------
@@ -289,13 +290,13 @@ function handle_outputJsonFile(req, res) {
 				EN_res[results[i].KeyValue] = results[i].EN;
 				CN_res[results[i].KeyValue] = results[i].CN;
 			}
-			fs.writeFile('xutm_EN.json', JSON.stringify(EN_res), function (err){
+			fs.writeFile(configData.pathOfOutputJsonFile + configData.outputENJsonFileName, JSON.stringify(EN_res), function (err){
 				if (err) throw err;
-				console.log("EN_Saved!");
+				console.log(configData.outputENJsonFileName + " has been saved");
 			});
-			fs.writeFile('xutm_CN.json', JSON.stringify(CN_res), function (err){
+			fs.writeFile(configData.pathOfOutputJsonFile + configData.outputCNJsonFileName, JSON.stringify(CN_res), function (err){
 				if (err) throw err;
-				console.log("CN_Saved!");
+				console.log(configData.outputCNJsonFileName + " has been saved");
 			});		
 		});     
 		con.on('error', function(err) {      
@@ -306,7 +307,7 @@ function handle_outputJsonFile(req, res) {
 }
 app.post('/outputJsonFile', urlencodedParser, function (req, res) {
 	handle_outputJsonFile(req, res);
-	res.json("success");
+	res.json(configData.outputENJsonFileName + " " + configData.outputCNJsonFileName + " has been saved");
 })
 
 //listen (start app with node server.js)==============

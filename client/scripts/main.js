@@ -46,6 +46,21 @@ angular.module('myModule', [], function($httpProvider) {
 	$scope.Tags = [];
 	var newTag = {KeyValue:"",CN:"",EN:"",Field:""};
 	var oldTag = {KeyValue:"",CN:"",EN:"",Field:""};
+	$scope.currentPage = 1;
+	$scope.pageSize = 10;
+  
+	$scope.numberOfPages = function(){
+		return Math.floor($scope.Tags.length/$scope.pageSize);                
+	};
+
+	$scope.changePage = function(){
+		if( parseInt($scope.Page) > 0 && parseInt($scope.Page) <= ( Math.floor($scope.Tags.length/$scope.pageSize)+ 1)){
+			$scope.currentPage = parseInt($scope.Page);
+		}else{
+			alert("The number is wrong");	
+		}
+		$scope.Page = "";
+	};
 
 	$scope.saveTag = function(Tag) {
 		newTag.KeyValue = Tag.KeyValue;
@@ -131,7 +146,7 @@ angular.module('myModule', [], function($httpProvider) {
 	$scope.inputJsonFile = function() {
 		var method = 'http://172.16.2.100:4011/inputJsonFile';
 		var Tag = newTag;
-		POST(method, Tag);			
+		POST(method, Tag);		
 	}
 
 	$scope.outputJsonFile = function() {
@@ -143,10 +158,17 @@ angular.module('myModule', [], function($httpProvider) {
 	function POST(method, Tag){//method=>string;Tag=>object;
 		$http.post(method, Tag)
 			.success(function(data){
+				$scope.messageStatus = data;
 				console.log(data); 
 			})
 			.error(function(data){
+				$scope.messageStatus = data;
 				console.log('Error: ' + data);
 			});		
 	}
-})
+}).filter('startFrom', function() {
+	return function(input, start) {
+		start = +start; 	
+		return input.slice(start);
+	};
+});

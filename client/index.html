@@ -72,62 +72,73 @@
 			</button>
 		</div>
 	</div>
+	<div class="lfms-form container">
+	<div class="lfms-form-header">
+		<button class="btn" ng-disabled="currentPage <= 1" ng-click="currentPage = currentPage - 1"><<</button>
+		<button class="btn" ng-disabled="currentPage >= numberOfPages() + 1" ng-click="currentPage = currentPage + 1">>></button>
+		Page {{currentPage}} of {{numberOfPages() + 1}} 
+		<div class="search-wrap">
+			<input type='text' class="lfms-input" ng-model="Page" placeholder="Please Input the Page" title="Please Input the Page">
+			<span class="glyphicon glyphicon-search" ng-click="changePage()"></span>
+		</div>
+	</div>	
+	</div>
 	<div class="container lfms-form">
 		<div class="lfms-form-header">
 			<span class="glyphicon glyphicon-list-alt"></span>
 			Data list
 			<div class="search-wrap">
-				<input type='text' class="lfms-input" ng-model="titleFilter" placeholder="Please Input Key Value">
+				<input type='text' class="lfms-input" ng-model="keyValueFilter" placeholder="Please Input Key Value" title="Please Input Key Value">
 				<span class="glyphicon glyphicon-search"></span>
 			</div>
 		</div>
 		<div class="lfms-tb-wrap">
 			<table ng-table="tableParams" class="table table-bordered table-hover table-striped">
 				<thead>
-				<tr>
-					<th>Key Value</th>
-					<th>CN</th>
-					<th>EN</th>
-					<th>Field</th>
-					<th>Edit</th>
-				</tr>
+					<tr>
+						<th>Key Value</th>
+						<th>CN</th>
+						<th>EN</th>
+						<th>Field</th>
+						<th>Edit</th>
+					</tr>
 				</thead>
 				<tbody>
-				<tr ng-repeat="Tag in Tags|filter:titleFilter"><!--//遍历每一个对象-->
-					<td title="KeyValue">
-						<span ng-if="!Tag.$edit" title = {{Tag.KeyValue}}>{{Tag.KeyValue}}</span>
-						<div ng-if="Tag.$edit" title = {{Tag.KeyValue}}><input type="text" ng-model="Tag.KeyValue" class="form-control"></div>
-					</td>
-					<td title="CN">
-						<span ng-if="!Tag.$edit" title = {{Tag.CN}}>{{Tag.CN}}</span>
-						<div ng-if="Tag.$edit" title = {{Tag.CN}}><input type="text" ng-model="Tag.CN" class="form-control"></div>
-					</td>
-					<td title="EN">
-						<span ng-if="!Tag.$edit" title = {{Tag.EN}}>{{Tag.EN}}</span>
-						<div ng-if="Tag.$edit" title = {{Tag.EN}}><input type="text" ng-model="Tag.EN" class="form-control"></div>
-					</td>
-					<td title="Field">
-						<span ng-if="!Tag.$edit" title = {{Tag.Field}}>{{Tag.Field}}</span>
-						<div ng-if="Tag.$edit" title = {{Tag.Field}}><input type="text" ng-model="Tag.Field" class="form-control"></div>
-					</td>
-					<td title="'Actions'">
-						<div class="tb-btn-action">
-							<button ng-if="!Tag.$edit" ng-click="Tag.$edit = true; editTag(Tag)" class="btn">
-								<span class="glyphicon glyphicon-pencil"></span>
-								Edit
-							</button>
-							<button ng-if="Tag.$edit" ng-click="Tag.$edit = false; saveTag(Tag)" class="btn">
-								<span class="glyphicon glyphicon-ok"></span>
-								Save
-							</button>
-							<button ng-if="Tag.$edit" ng-click="Tag.$edit = false; deleteTag(Tag)" class="btn">
-								<span class="glyphicon glyphicon-remove"></span>
-								Delete
-							</button>
-							<!--<a ng-click="addStudent()" ng-if="Tag.$edit">Add</a>-->
-						</div>
-					</td>
-				</tr>
+					<tr ng-repeat="Tag in Tags | filter:keyValueFilter | startFrom: (currentPage - 1)*pageSize | limitTo:pageSize">
+						<td title="KeyValue">
+							<span ng-show="!Tag.$edit" title = {{Tag.KeyValue}}>{{Tag.KeyValue}}</span>
+							<div ng-show="Tag.$edit" title = {{Tag.KeyValue}}><input type="text" ng-model="Tag.KeyValue" class="form-control"></div>
+						</td>
+						<td title="CN">
+							<span ng-show="!Tag.$edit" title = {{Tag.CN}}>{{Tag.CN}}</span>
+							<div ng-show="Tag.$edit" title = {{Tag.CN}}><input type="text" ng-model="Tag.CN" class="form-control"></div>
+						</td>
+						<td title="EN">
+							<span ng-show="!Tag.$edit" title = {{Tag.EN}}>{{Tag.EN}}</span>
+							<div ng-show="Tag.$edit" title = {{Tag.EN}}><input type="text" ng-model="Tag.EN" class="form-control"></div>
+						</td>
+						<td title="Field">
+							<span ng-show="!Tag.$edit" title = {{Tag.Field}}>{{Tag.Field}}</span>
+							<div ng-show="Tag.$edit" title = {{Tag.Field}}><input type="text" ng-model="Tag.Field" class="form-control"></div>
+						</td>
+						<td>
+							<div class="tb-btn-action">
+								<button ng-show="!Tag.$edit" ng-click="Tag.$edit = true; editTag(Tag)" class="btn">
+									<span class="glyphicon glyphicon-pencil"></span>
+									Edit
+								</button>
+								<button ng-show="Tag.$edit" ng-click="Tag.$edit = false; saveTag(Tag)" class="btn">
+									<span class="glyphicon glyphicon-ok"></span>
+									Save
+								</button>
+								<button ng-show="Tag.$edit" ng-click="Tag.$edit = false; deleteTag(Tag)" class="btn">
+									<span class="glyphicon glyphicon-remove"></span>
+									Delete
+								</button>
+								<!--<a ng-click="addStudent()" ng-show="Tag.$edit">Add</a>-->
+							</div>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
