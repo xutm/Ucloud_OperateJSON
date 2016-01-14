@@ -115,6 +115,29 @@ input.form-control{
     margin-top: -13px;
     font-size: 14px;
   }
+  &.expand{
+    cursor: pointer;
+    .glyphicon-arrow-down{
+      display: none;
+      color: #00ba8b;
+    }
+    &:hover{
+      box-shadow: 0px 0px 0px 2px #00ba8b;
+      border-color: transparent;
+      -webkit-transition: all .1s;
+      -moz-transition: all .1s;
+      -ms-transition: all .1s;
+      -o-transition: all .1s;
+      transition: all .1s;
+      .glyphicon-arrow-down{
+        display: inline-block;
+        position: relative;
+        -webkit-animation: arrow 3s infinite;
+        -o-animation: arrow 3s infinite;
+        animation: arrow 3s infinite;
+      }
+    }
+  }
 }
 .lfms-form-action{
   padding: 20px 15px;
@@ -140,4 +163,14 @@ input.form-control{
 }
 .tb-btn-action{
   width: 210px;
+}
+@keyframes arrow {
+  from{
+    top: -10px;
+    opacity: 1;
+  }
+  to{
+    opacity: 0;
+    top: 10px;
+  }
 }
