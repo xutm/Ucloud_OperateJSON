@@ -4,149 +4,41 @@
 	<meta charset='utf-8'>
 	<title>Ucloud</title>
 	<script type="text/javascript" src="./scripts/app/angular.min.js"></script>
+	<script type="text/javascript" src="./scripts/app/angular-ui-router.min.js"></script>
 	<script type="text/javascript" src="./scripts/app/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript" src="./scripts/app/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="./scripts/app/bootstrap-3.3.6-dist/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="./styles/css/main.css">
 	<script type="text/javascript" src="./scripts/main.js"></script>
+	<script type="text/javascript" src="./scripts/main-module.js"></script>
+	<script type="text/javascript" src="./scripts/controllers/operate-json-menu-controller.js"></script>
+	<script type="text/javascript" src="./scripts/controllers/login-controller.js"></script>
+	<script type="text/javascript" src="./scripts/filters/filterJsonData.js"></script>
+	<script type="text/javascript" src="./scripts/services/login-service.js"></script>
 </head>
 <body>
 
-<div ng-controller="JSONController">
-	<div class="lfms-header">
-		<div class="container">
-			<h1 class="title pull-left">Uweb<br />
-				<small>Language File Management System</small>
-			</h1>
-			<div class="action-wrap">
-				<button type="button" class="btn" ng-click="loadData()">
-					<span class="glyphicon glyphicon-open"></span>
-					LoadAllTags
-				</button>
-				<button type="button" class="btn" ng-click="inputJsonFile()">
-					<span class="glyphicon glyphicon-import"></span>
-					InputJson
-				</button>
-				<button type="button" class="btn" ng-click="outputJsonFile()">
-					<span class="glyphicon glyphicon-export"></span>
-					OutputJson
-				</button>
+	<div ui-view>
+		<div class="lfms-form container">
+			<div>
+				<img src="./images/UcloudLogo.jpg">
 			</div>
-		</div>
+			<div>
+				<h1>
+					Hi!
+				</h1>
+				<p>
+					Let's connect to Ucloud...
+				</p>
+			</div>	
+		</div>	
 	</div>
-	<div class="lfms-form container">
-		<div class="lfms-form-header expand" ng-click="addKeyValueFlag = !addKeyValueFlag">
-			<span class="glyphicon glyphicon-file" ng-class="addFlag"></span>
-			Add new item to file
-			<span class="glyphicon glyphicon-arrow-down"></span>
-		</div>
-		<div class="lfms-form-body form-horizontal" ng-show="addKeyValueFlag">
-			<div class="form-group">
-				<label class="col-sm-2 control-label">KeyValue</label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" ng-model="newKeyValue" placeholder="input KeyValue" required/>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-2 control-label">CN</label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" ng-model="newCN" placeholder="input CN" required/>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-2 control-label">EN</label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" ng-model="newEN" placeholder="input EN" required/>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Field</label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" ng-model="newField" placeholder="input Field"/>
-				</div>
-			</div>
-		</div>
-		<div class="lfms-form-action" ng-show="addKeyValueFlag">
-			<button ng-click="addTag()" class="btn btn-default">
-				<span class="glyphicon glyphicon-plus"></span>
-				AddNewKeyValue
-			</button>
-		</div>
-	</div>
-	<div class="lfms-form container">
-	<div class="lfms-form-header">
-		<button class="btn" ng-disabled="currentPage <= 1" ng-click="currentPage = currentPage - 1"><<</button>
-		<button class="btn" ng-disabled="currentPage >= maxPage" ng-click="currentPage = currentPage + 1">>></button>
-		Page {{currentPage}} of {{maxPage}} 
-		<div class="search-wrap">
-			<input type='text' class="lfms-input" ng-model="Page" placeholder="Please Input the Page" title="Please Input the Page">
-			<span class="glyphicon glyphicon-search" ng-click="changePage()"></span>
-		</div>
-	</div>	
-	</div>
-	<div class="container lfms-form">
-		<div class="lfms-form-header">
-			<span class="glyphicon glyphicon-list-alt"></span>
-			Data list
-			<div class="search-wrap">
-				<input type='text' class="lfms-input" ng-model="keyValueFilter" placeholder="Please Input Key Value" title="Please Input Key Value">
-				<span class="glyphicon glyphicon-search"></span>
-			</div>
-		</div>
-		<div class="lfms-tb-wrap">
-			<table ng-table="tableParams" class="table table-bordered table-hover table-striped">
-				<thead>
-					<tr>
-						<th>Key Value</th>
-						<th>CN</th>
-						<th>EN</th>
-						<th>Field</th>
-						<th>Edit</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="Tag in Tags | filter:keyValueFilter | startFrom: (currentPage - 1)*pageSize : this | limitTo:pageSize">
-						<td title="KeyValue">
-							<span ng-show="!Tag.$edit" title = {{Tag.KeyValue}}>{{Tag.KeyValue}}</span>
-							<div ng-show="Tag.$edit" title = {{Tag.KeyValue}}><input type="text" ng-model="Tag.KeyValue" class="form-control"></div>
-						</td>
-						<td title="CN">
-							<span ng-show="!Tag.$edit" title = {{Tag.CN}}>{{Tag.CN}}</span>
-							<div ng-show="Tag.$edit" title = {{Tag.CN}}><input type="text" ng-model="Tag.CN" class="form-control"></div>
-						</td>
-						<td title="EN">
-							<span ng-show="!Tag.$edit" title = {{Tag.EN}}>{{Tag.EN}}</span>
-							<div ng-show="Tag.$edit" title = {{Tag.EN}}><input type="text" ng-model="Tag.EN" class="form-control"></div>
-						</td>
-						<td title="Field">
-							<span ng-show="!Tag.$edit" title = {{Tag.Field}}>{{Tag.Field}}</span>
-							<div ng-show="Tag.$edit" title = {{Tag.Field}}><input type="text" ng-model="Tag.Field" class="form-control"></div>
-						</td>
-						<td>
-							<div class="tb-btn-action">
-								<button ng-show="!Tag.$edit" ng-click="Tag.$edit = true; editTag(Tag)" class="btn">
-									<span class="glyphicon glyphicon-pencil"></span>
-									Edit
-								</button>
-								<button ng-show="Tag.$edit" ng-click="Tag.$edit = false; saveTag(Tag)" class="btn">
-									<span class="glyphicon glyphicon-ok"></span>
-									Save
-								</button>
-								<button ng-show="Tag.$edit" ng-click="Tag.$edit = false; deleteTag(Tag)" class="btn">
-									<span class="glyphicon glyphicon-remove"></span>
-									Delete
-								</button>
-								<!--<a ng-click="addStudent()" ng-show="Tag.$edit">Add</a>-->
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
-</div>
+
+
 </body>
 <script type="text/javascript">
-	angular.bootstrap(document, ['myModule']);
+	setTimeout(function asyncBootstrap() {
+		angular.bootstrap(document, ['myModule']);
+	},5000);
 </script>
 </html>

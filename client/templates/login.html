@@ -1,0 +1,14 @@
+<div>
+	<div>
+		Url: <input type="text" ng-model="loginData.Url" placeholder="127.0.0.1:4041" required>
+	</div>
+	<div>
+		UserName: <input type="text" ng-model="loginData.UserName" placeholder="{{loginData.UserName}}" required>
+	</div>
+	<div>
+		Passward: <input type="text" ng-model="loginData.Passward" required>
+	</div>
+	<div>
+		<button ng-click="doAuth()" ng-disable="!loginData.Url || !loginData.UserName || !loginData.Passward">Anthenticate</button>
+	</div>
+</div>
