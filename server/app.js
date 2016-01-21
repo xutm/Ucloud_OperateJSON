@@ -10,7 +10,7 @@ var fs = require("fs");
 var urlencodedParser = bodyParser.urlencoded({ extended: false })// Create application/x-www-form-urlencoded parser
 var _ = require("underscore");
 
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/../client'));
 app.use(function(req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header ("Access-Control-Allow-Credentials", true);
@@ -312,5 +312,5 @@ app.post('/outputJsonFile', urlencodedParser, function (req, res) {
 
 //listen (start app with node server.js)==============
 var server = app.listen(4011, function () {
-	console.log("Server Up");
+	console.log("Server Up at 4011");
 })
