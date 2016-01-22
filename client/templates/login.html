@@ -1,14 +1,18 @@
-<div>
-	<div>
-		Url: <input type="text" ng-model="loginData.Url" placeholder="127.0.0.1:4041" required>
+<div class="login-page">
+	<div class="login-wrap">
+		<!--<div class="login-group">
+			<span class="glyphicon glyphicon-globe"></span>
+			<input type="text" placeholder="127.0.0.1:4041" ng-model="loginData.Url" required>
+		</div>-->
+		<div class="login-group">
+			<span class="glyphicon glyphicon-user"></span>
+			<input type="text" placeholder="Username" ng-model="loginData.UserName" required />
+		</div>
+		<div class="login-group">
+			<span class="glyphicon glyphicon-lock"></span>
+			<input type="password" placeholder="Password" ng-model="loginData.Passward" required />
+		</div>
+		<button class="login-btn" title="login" ng-click="doAuth()" ng-disable="!loginData.Url || !loginData.UserName || !loginData.Passward">GO</button>
 	</div>
-	<div>
-		UserName: <input type="text" ng-model="loginData.UserName" placeholder="{{loginData.UserName}}" required>
-	</div>
-	<div>
-		Passward: <input type="text" ng-model="loginData.Passward" required>
-	</div>
-	<div>
-		<button ng-click="doAuth()" ng-disable="!loginData.Url || !loginData.UserName || !loginData.Passward">Anthenticate</button>
-	</div>
+	<p class="cp-info">Copyright © 2016 UWeb All rights reserved.</p>
 </div>
