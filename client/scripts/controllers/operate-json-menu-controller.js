@@ -1,4 +1,4 @@
-angular.module('main').controller('OperateJsonMenuCtrl',function($scope, $http){
+angular.module('main', ['ui.router']).controller('OperateJsonMenuCtrl',function($scope, $http, $state){
 	$scope.Tags = [];
 	var newTag = {KeyValue:"",CN:"",EN:"",Field:""};
 	var oldTag = {KeyValue:"",CN:"",EN:"",Field:""};
@@ -96,6 +96,10 @@ angular.module('main').controller('OperateJsonMenuCtrl',function($scope, $http){
 			$scope.newField = '';
 		}
 	};
+
+	$scope.logOut = function() {
+		$state.go('login');
+	}
 
 	$scope.loadData = function() {
 		$http.get('http://127.0.0.1:4011/loadData')
