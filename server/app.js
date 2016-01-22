@@ -80,7 +80,7 @@ function handle_createTable() {
 		//var sql = " DROP TABLE IF EXISTS Ucloud_datas ";
 		var sql = "DELETE FROM Ucloud_datas"
 		con.query(sql,function(err, rows){
-			console.log(rows);
+			//console.log(rows);
 			con.release();
 			if(!err) {
 				console.log("delete the data of Ucloud_datas ");
@@ -141,7 +141,8 @@ function handle_inputJsonFile(req, res, sql, values) {
 		});
 	});
 }
-app.post('/inputJsonFile', urlencodedParser, function (req, res) {
+//app.post('/inputJsonFile', urlencodedParser, function (req, res) {
+setTimeout( function() {
 	var sql = "INSERT INTO Ucloud_datas (KeyValue, CN, EN, Field) VALUES ?";
 	var values = [];
 	//console.log(EN_data);            problem: save the last value
@@ -161,13 +162,21 @@ app.post('/inputJsonFile', urlencodedParser, function (req, res) {
 			values.push([key, value, '', '']);
 			flag = 0;
 		}
-	});	
-	handle_inputJsonFile(req, res, sql, values)	
+	});
+	pool.getConnection(function(err,con){//add EN_data
+		con.query(sql, [values], function(err) {
+			con.release();
+			if (err) throw err;
+		});  
+	});  		
+	//handle_inputJsonFile(req, res, sql, values);	
 	//console.log(values);
-	console.log(values[1]);
-	console.log(values.length);
-	res.json("JsonFile has been input");
-})
+	//console.log(values[1]);
+	//console.log(values.length);
+	console.log("JsonData are input, the length of JsonData is " + values.length + "!!!!!!")
+	//res.json("JsonFile has been input");
+}, 1000);
+//})
 
 //update Tag when receive the commend from front end---------------------------------   
 function handle_saveTag(req, res, updateTag) {
