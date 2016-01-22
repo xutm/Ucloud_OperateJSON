@@ -1,6 +1,11 @@
 {
   "name": "operateJson",
   "version": "0.0.1",
+  "homepage": "https://github.com/xutm/Ucloud_OperateJSON",
+  "repository": {
+     "type": "git",
+      "url": "https://github.com/xutm/Ucloud_OperateJSON.git"
+    },
   "dependencies": {
     "gulp": "~3.9.0",
     "gulp-less": "~3.0.3",

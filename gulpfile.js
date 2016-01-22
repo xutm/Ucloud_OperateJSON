@@ -1,5 +1,7 @@
-var gulp = require('gulp');
-var less = require('gulp-less');
+var gulp = require('gulp'),
+      less = require('gulp-less'),
+      exec = require('child_process').exec,
+      spawn = require('child_process').spawn;
 var LessPluginCleanCSS = require('less-plugin-clean-css'),
     cleancss = new LessPluginCleanCSS({ advanced: true });
 
@@ -11,4 +13,19 @@ gulp.task('less', function () {
         .pipe(gulp.dest('./client/styles/css'));
 });
 
-gulp.task('default', ['less']);
+gulp.task('start', function() {
+	//exec('node server/app.js');	
+	spawn('node', ['server/app.js'], {stdio: 'inherit'});
+});
+
+gulp.task('default', ['less', 'start']);
+
+gulp.task('develop', function () {
+  nodemon({ script: 'server/app.js'
+          , ext: 'html js'
+          , ignore: ['ignored.js']
+          , tasks: ['lint'] })
+    .on('restart', function () {
+      console.log('restarted!')
+    })
+})

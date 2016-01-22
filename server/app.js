@@ -1,14 +1,13 @@
-//set up===========================
-var configData = require("../config.json");
-var EN_data = require(configData. pathOfJsonFile+ "en_US.json");
-var CN_data = require(configData. pathOfJsonFile + "zh_CN.json");
-var mysql = require("mysql");
-var express = require('express');
+var configData = require("../config.json"),
+      EN_data = require(configData. pathOfJsonFile+ "en_US.json"),
+      CN_data = require(configData. pathOfJsonFile + "zh_CN.json"),
+      mysql = require("mysql"),
+      express = require('express'),
+      fs = require("fs"),
+      _ = require("underscore");
 var bodyParser = require('body-parser');    // pull information from HTML POST (express4)
 var app = express();         // create our app w/ express
-var fs = require("fs");
 var urlencodedParser = bodyParser.urlencoded({ extended: false })// Create application/x-www-form-urlencoded parser
-var _ = require("underscore");
 
 app.use(express.static(__dirname + '/../client'));
 app.use(function(req, res, next) {
