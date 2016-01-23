@@ -35,7 +35,7 @@ angular.module('main', ['ui.router']).controller('OperateJsonMenuCtrl',function(
 		console.log(newTag);
 		if( (newTag.KeyValue !== oldTag.KeyValue) || (newTag.CN !== oldTag.CN) || (newTag.EN !== oldTag.EN) || (newTag.Field !== oldTag.Field) ){
 			console.log("success");
-			var method = 'http://127.0.0.1:4011/saveTag';
+			var method = 'http://192.168.1.104:4011/saveTag';
 			var Tag = newTag;
 			POST(method, Tag);
 		}
@@ -62,7 +62,7 @@ angular.module('main', ['ui.router']).controller('OperateJsonMenuCtrl',function(
 		newTag.EN = Tag.EN;
 		newTag.Field = Tag.Field;
 		console.log(newTag);
-		var method = 'http://127.0.0.1:4011/deleteTag';
+		var method = 'http://192.168.1.104:4011/deleteTag';
 		var Tag = newTag;
 		POST(method, Tag);
 	};
@@ -87,7 +87,7 @@ angular.module('main', ['ui.router']).controller('OperateJsonMenuCtrl',function(
 			newTag.EN = $scope.newEN;
 			newTag.Field = $scope.newField;
 			console.log(newTag);
-			var method = 'http://127.0.0.1:4011/addTag';
+			var method = 'http://192.168.1.104:4011/addTag';
 			var Tag = newTag;
 			POST(method, Tag);	
 			$scope.newKeyValue = '';
@@ -102,7 +102,7 @@ angular.module('main', ['ui.router']).controller('OperateJsonMenuCtrl',function(
 	}
 
 	$scope.loadData = function() {
-		$http.get('http://127.0.0.1:4011/loadData')
+		$http.get('http://192.168.1.104:4011/loadData')
 			.success(function(data){
 				$scope.Tags = data;
 				$scope.maxPage = Math.floor($scope.Tags.length/$scope.pageSize) + 1;
@@ -114,13 +114,13 @@ angular.module('main', ['ui.router']).controller('OperateJsonMenuCtrl',function(
 	};
 
 	$scope.inputJsonFile = function() {
-		var method = 'http://127.0.0.1:4011/inputJsonFile';
+		var method = 'http://192.168.1.104:4011/inputJsonFile';
 		var Tag = newTag;
 		POST(method, Tag);		
 	}
 
 	$scope.outputJsonFile = function() {
-		var method = 'http://127.0.0.1:4011/outputJsonFile';
+		var method = 'http://192.168.1.104:4011/outputJsonFile';
 		var Tag = newTag;
 		POST(method, Tag);	
 	};

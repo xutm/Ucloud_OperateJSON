@@ -43,9 +43,12 @@ angular.module('myModule', ['ui.router', 'main'], function($httpProvider) {
 	}];
 }).config(function($stateProvider, $urlRouterProvider) {
 	var checkAuth = function($state, loginData) {
-		if(!loginData.Passward) {
-			$state.go('login');
-		}
+		setTimeout(function(){
+			if(!loginData.status){
+				alert("username or passward isnt corrent!!!");
+				$state.go('login');
+			}			
+		},500)
 	};
 
 	$stateProvider.state('login', {
@@ -55,9 +58,9 @@ angular.module('myModule', ['ui.router', 'main'], function($httpProvider) {
 	}).state('menu', {
 		url: "/menu",
 		templateUrl: "templates/operate-json-menu.html",
-		controller: "OperateJsonMenuCtrl"
-		//onEnter: checkAuth
+		controller: "OperateJsonMenuCtrl",
+		onEnter: checkAuth
 	});
 
-	$urlRouterProvider.otherwise('login');
+	$urlRouterProvider.otherwise('menu');
 });

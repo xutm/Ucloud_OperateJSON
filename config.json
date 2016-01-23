@@ -7,5 +7,7 @@
 	"outputENJsonFileName": "tm_EN.json",
 	"outputCNJsonFileName": "tm_CN.json",
 	"pathOfOutputJsonFile": "../",
-	"port": "4011"
+	"port": "4011",
+	"username": "admin",
+	"passward": "admin"
 }

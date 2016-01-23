@@ -318,7 +318,16 @@ app.post('/outputJsonFile', urlencodedParser, function (req, res) {
 	res.json(configData.outputENJsonFileName + " " + configData.outputCNJsonFileName + " has been saved");
 })
 
+app.post('/login', urlencodedParser, function (req, res) {
+	console.log(req.body);
+	if( configData.username === req.body.UserName && configData.passward === req.body.Passward){
+		res.json("success");
+	}else{
+		res.json("error");
+	}
+});
+
 //listen (start app with node server.js)==============
-var server = app.listen(4011, function () {
-	console.log("Server Up at 4011");
+var server = app.listen(configData.port, function () {
+	console.log("Server Up at " + configData.port);
 })

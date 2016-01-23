@@ -45,13 +45,10 @@
 
 	4,gulp
 
-	5,cd server && node app.js
+	5,input localhost:4041 in explorer
 
-	6.open the index.html in explorer
-
-	note: 1.The InputJson button: be used to import the en_US.json and zh_CN.json to the MySQL.
-	         2.The OutputJson button: be used to export the data of MySQL to the en_US.json and zh_CN.json
-	         3.The LodaAllTags button: be used to import the data of MySQL to client.
+	note:1.The OutputJson button: be used to export the data of MySQL to the en_US.json and zh_CN.json
+	         2.The LoadData button: be used to import the data of MySQL to client.
 
 #MySQL
 	1,CREATE DATABASE ucloud;
