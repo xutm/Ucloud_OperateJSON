@@ -1,8 +1,9 @@
-angular.module('main').controller('LoginCtrl', function($scope, $state, $http, loginData) {
+angular.module('main').controller('LoginCtrl', function($scope, $state, $http, urls, loginData) {
 	$scope.doAuth = function() {
 		loginData.UserName = $scope.loginData.UserName;
 		loginData.Passward = $scope.loginData.Passward;
-		$http.post('http://192.168.1.104:4011/login', loginData)
+
+		$http.post(urls.api + 'login', loginData)
 			.success(function(data){
 				//$scope.messageStatus = data;
 				console.log(data);

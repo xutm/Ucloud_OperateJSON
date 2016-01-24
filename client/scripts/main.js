@@ -1,6 +1,9 @@
 angular.module('myModule', ['ui.router', 'main'], function($httpProvider) {
 	// Use x-www-form-urlencoded Content-Type
 	$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+    $httpProvider.defaults.headers.common['Accept'] = 'application/json, text/plain, * / *';
+    $httpProvider.defaults.withCredentials  = true;
+
  
 	/**
 		* The workhorse; converts an object to x-www-form-urlencoded serialization.
@@ -41,6 +44,8 @@ angular.module('myModule', ['ui.router', 'main'], function($httpProvider) {
 	$httpProvider.defaults.transformRequest = [function(data) {
 		return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
 	}];
+}).constant('urls', {
+    api: 'http://locale.api.frontend.ucloud.cn/'
 }).config(function($stateProvider, $urlRouterProvider) {
 	var checkAuth = function($state, loginData) {
 		setTimeout(function(){

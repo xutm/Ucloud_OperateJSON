@@ -4,18 +4,23 @@
 				<small>Language File Management System</small>
 			</h1>
 			<div class="action-wrap">
-				<button type="button" class="btn" ng-click="logOut()">
+				<button type="button" class="btn" ng-click="logout()">
 					<span class="glyphicon glyphicon-log-out"></span>
-					LogOut
+					Logout
 				</button>
 				<button type="button" class="btn" ng-click="loadData()">
 					<span class="glyphicon glyphicon-import"></span>
-					LoadData
+					Refresh
 				</button>
-				<button type="button" class="btn" ng-click="outputJsonFile()">
+				<button type="button" class="btn" ng-click="export('cn')">
 					<span class="glyphicon glyphicon-export"></span>
-					OutputJson
+					export cn
 				</button>
+    			<button type="button" class="btn" ng-click="export('en')">
+					<span class="glyphicon glyphicon-export"></span>
+					export en
+				</button>
+
 			</div>
 		</div>
 	</div>
