@@ -70,6 +70,7 @@ angular.module('main', ['ui.router']).controller('OperateJsonMenuCtrl',function(
 			.success(function(data){
 				$scope.Tags = data;
 				$scope.maxPage = Math.floor($scope.Tags.length/$scope.pageSize) + 1;
+                $scope.currentPage = 1;
 			})
 			.error(function(data){
 				console.error('Error: ' + data);
