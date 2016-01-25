@@ -5,7 +5,7 @@
 	"password": "",
 	"database": "uweb",
     "locale": "./locale/",
-    "download": "./tmp/",
+    "download": "./server/tmp/",
 	"port": "4990",
     "username": "admin",
     "passwd": "admin"
