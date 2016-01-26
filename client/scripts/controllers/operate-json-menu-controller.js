@@ -1,5 +1,7 @@
 angular.module('main', ['ui.router']).controller('OperateJsonMenuCtrl',function($scope, $http, $state, urls){
     $scope.Tags = [];
+    $scope.newTag = {};
+
 	var oldTag = {Name:"",CN:"",EN:"",Field:""};
 
 	$scope.currentPage = 1;
