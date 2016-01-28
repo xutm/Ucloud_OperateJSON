@@ -4,44 +4,49 @@
 				<small>Language File Management System</small>
 			</h1>
 			<div class="action-wrap">
-				<button type="button" class="btn" ng-click="logOut()">
+				<button type="button" class="btn" ng-click="logout()">
 					<span class="glyphicon glyphicon-log-out"></span>
-					LogOut
+					Logout
 				</button>
-				<button type="button" class="btn" ng-click="loadData()">
+				<button type="button" class="btn" ng-click="load()">
 					<span class="glyphicon glyphicon-import"></span>
-					LoadData
+					Refresh
 				</button>
-				<button type="button" class="btn" ng-click="outputJsonFile()">
+				<button type="button" class="btn" ng-click="export('cn')">
 					<span class="glyphicon glyphicon-export"></span>
-					OutputJson
+					export cn
 				</button>
+    			<button type="button" class="btn" ng-click="export('en')">
+					<span class="glyphicon glyphicon-export"></span>
+					export en
+				</button>
+
 			</div>
 		</div>
 	</div>
 	<div class="lfms-form container">
-		<div class="lfms-form-header expand" ng-click="addKeyValueFlag = !addKeyValueFlag">
+		<div class="lfms-form-header expand" ng-click="addNameFlag = !addNameFlag">
 			<span class="glyphicon glyphicon-file" ng-class="addFlag"></span>
 			Add new item to file
 			<span class="glyphicon glyphicon-arrow-down"></span>
 		</div>
-		<div class="lfms-form-body form-horizontal" ng-show="addKeyValueFlag">
+		<div class="lfms-form-body form-horizontal" ng-show="addNameFlag">
 			<div class="form-group">
-				<label class="col-sm-2 control-label">KeyValue</label>
+				<label class="col-sm-2 control-label">Name</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" ng-model="newKeyValue" placeholder="input KeyValue" required/>
+					<input type="text" class="form-control" ng-model="newTag.Name" placeholder="input Name" required/>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">CN</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" ng-model="newCN" placeholder="input CN" required/>
+					<input type="text" class="form-control" ng-model="newTag.CN" placeholder="input CN" required/>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">EN</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" ng-model="newEN" placeholder="input EN" required/>
+					<input type="text" class="form-control" ng-model="newTag.EN" placeholder="input EN" required/>
 				</div>
 			</div>
 			<div class="form-group">
@@ -51,10 +56,10 @@
 				</div>
 			</div>
 		</div>
-		<div class="lfms-form-action" ng-show="addKeyValueFlag">
+		<div class="lfms-form-action" ng-show="addNameFlag">
 			<button ng-click="addTag()" class="btn btn-default">
 				<span class="glyphicon glyphicon-plus"></span>
-				AddNewKeyValue
+				AddNewName
 			</button>
 		</div>
 	</div>
@@ -91,9 +96,9 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="Tag in Tags | filter:keyValueFilter | startFrom: (currentPage - 1)*pageSize : this | limitTo:pageSize">
-						<td title="KeyValue">
-							<span ng-show="!Tag.$edit" title = {{Tag.KeyValue}}>{{Tag.KeyValue}}</span>
-							<div ng-show="Tag.$edit" title = {{Tag.KeyValue}}><input type="text" ng-model="Tag.KeyValue" class="form-control"></div>
+						<td title="Name">
+							<span ng-show="!Tag.$edit" title = {{Tag.Name}}>{{Tag.Name}}</span>
+							<div ng-show="Tag.$edit" title = {{Tag.Name}}><input type="text" ng-model="Tag.Name" class="form-control"></div>
 						</td>
 						<td title="CN">
 							<span ng-show="!Tag.$edit" title = {{Tag.CN}}>{{Tag.CN}}</span>

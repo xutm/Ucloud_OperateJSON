@@ -1,16 +1,22 @@
-angular.module('main', ['ui.router']).controller('OperateJsonMenuCtrl',function($scope, $http, $state){
-	$scope.Tags = [];
-	var newTag = {KeyValue:"",CN:"",EN:"",Field:""};
-	var oldTag = {KeyValue:"",CN:"",EN:"",Field:""};
+angular.module('main', ['ui.router']).controller('OperateJsonMenuCtrl',function($scope, $http, $state, urls){
+    $scope.Tags = [];
+    $scope.newTag = {};
+
+	var oldTag = {Name:"",CN:"",EN:"",Field:""};
+
 	$scope.currentPage = 1;
 	$scope.pageSize = 10;
-	$scope.addKeyValueFlag = 0;
+	$scope.addNameFlag = 0;
 	$scope.maxPage = 1;
 
 	$scope.$watch('keyValueFilter', function(){
 		$scope.currentPage = 1;
 		//console.log("success_tm");
 	}, true);
+
+    $scope.logout = function() {
+		$state.go('login');
+	}
 
 	$scope.changePage = function(){
 		if( parseInt($scope.Page) > 0 && parseInt($scope.Page) <= $scope.maxPage){
@@ -21,112 +27,69 @@ angular.module('main', ['ui.router']).controller('OperateJsonMenuCtrl',function(
 		$scope.Page = "";
 	};
 
-	$scope.searchByKeyValue = function(){
+	$scope.searchByName = function(){
 		if($scope.keyValueFilter){
 			$scope.currentPage = 1;
 		}
 	}
 
 	$scope.saveTag = function(Tag) {
-		newTag.KeyValue = Tag.KeyValue;
-		newTag.CN = Tag.CN;
-		newTag.EN = Tag.EN;
-		newTag.Field = Tag.Field;
-		console.log(newTag);
-		if( (newTag.KeyValue !== oldTag.KeyValue) || (newTag.CN !== oldTag.CN) || (newTag.EN !== oldTag.EN) || (newTag.Field !== oldTag.Field) ){
-			console.log("success");
-			var method = 'http://192.168.1.104:4011/saveTag';
-			var Tag = newTag;
-			POST(method, Tag);
-		}
+        if(_.isEqual(oldTag, Tag)) {
+            return;
+        }
+		
+        post(urls.api + 'update', Tag);
 	}
 
 	$scope.editTag = function(Tag) {
-		oldTag.KeyValue = Tag.KeyValue;
-		oldTag.CN = Tag.CN;
-		oldTag.EN = Tag.EN;
-		oldTag.Field = Tag.Field;
-		console.log(oldTag);
+        _.extend(oldTag, Tag);
 	}
 
 	$scope.deleteTag = function(Tag){
-		var index = 0;
-		for(var i = 0; i < $scope.Tags.length; i++){
-			if(Tag.KeyValue === $scope.Tags[i].KeyValue){
-				index = i;
-			}
-		}
-		$scope.Tags.splice(index,1);
-		newTag.KeyValue = Tag.KeyValue;
-		newTag.CN = Tag.CN;
-		newTag.EN = Tag.EN;
-		newTag.Field = Tag.Field;
-		console.log(newTag);
-		var method = 'http://192.168.1.104:4011/deleteTag';
-		var Tag = newTag;
-		POST(method, Tag);
+        var index = _.find($scope.Tags, {Name: Tag.Name});
+		
+        $scope.Tags.splice(index,1);
+		post(urls.api + 'delete', Tag);
 	};
 
 	$scope.addTag=function(){
-		if(!$scope.newKeyValue){
-			alert("Please input KeyValue!");
+		if(!$scope.newTag.Name || !$scope.newTag.CN || !$scope.newTag.EN){
+			return alert("Please input Name, CN, EN!");
 		}
-		if(!$scope.newCN){
-			alert("Please input CN!");
-		}
-		if(!$scope.newEN){
-			alert("Please input EN!");
-		}
-		if(!$scope.newField){
-			alert("Please input Field!");
-		}
-		if( $scope.newKeyValue && $scope.newCN && $scope.newEN && $scope.newField){
-			$scope.Tags.push({KeyValue: $scope.newKeyValue, CN: $scope.newCN, EN: $scope.newEN, Field: $scope.newField});	
-			newTag.KeyValue = $scope.newKeyValue;
-			newTag.CN = $scope.newCN;
-			newTag.EN = $scope.newEN;
-			newTag.Field = $scope.newField;
-			console.log(newTag);
-			var method = 'http://192.168.1.104:4011/addTag';
-			var Tag = newTag;
-			POST(method, Tag);	
-			$scope.newKeyValue = '';
-			$scope.newCN = '';
-			$scope.newEN = '';
-			$scope.newField = '';
-		}
-	};
+	
+        post(urls.api + 'insert', $scope.newTag);
+        $scope.Tags.push(_.clone($scope.newTag));
+        $scope.newTag = {
+            Name: '',
+            CN: '',
+            EN: '',
+            Field: ''
+        };
+    };
 
-	$scope.logOut = function() {
-		$state.go('login');
-	}
-
-	$scope.loadData = function() {
-		$http.get('http://192.168.1.104:4011/loadData')
+	$scope.load = function() {
+		$http.get(urls.api + 'query')
 			.success(function(data){
 				$scope.Tags = data;
 				$scope.maxPage = Math.floor($scope.Tags.length/$scope.pageSize) + 1;
-				console.log(data);
+                $scope.currentPage = 1;
 			})
 			.error(function(data){
-				console.log('Error: ' + data);
+				console.error('Error: ' + data);
 			});
 	};
 
-	$scope.inputJsonFile = function() {
-		var method = 'http://192.168.1.104:4011/inputJsonFile';
-		var Tag = newTag;
-		POST(method, Tag);		
+	$scope.import = function() {
+		post(urls.api + 'import');	
 	}
 
-	$scope.outputJsonFile = function() {
-		var method = 'http://192.168.1.104:4011/outputJsonFile';
-		var Tag = newTag;
-		POST(method, Tag);	
+	$scope.export = function(lan) {
+        window.open(urls.api + 'export/' + lan, 'width=0,height=0');
 	};
 
-	function POST(method, Tag){//method=>string;Tag=>object;
-		$http.post(method, Tag)
+    $scope.load();
+	function post(method, Tag){//method=>string;Tag=>object;
+		$http.post(method, _.clone(Tag))
 			.success(function(data){
 				$scope.messageStatus = data;
 				console.log(data); 
@@ -136,4 +99,5 @@ angular.module('main', ['ui.router']).controller('OperateJsonMenuCtrl',function(
 				console.log('Error: ' + data);
 			});		
 	}
+
 });

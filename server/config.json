@@ -1,0 +1,12 @@
+{
+    "port": 4990,
+	"host": "localhost",
+	"user": "root",
+	"password": "",
+	"database": "uweb",
+    "locale": "./locale/",
+    "download": "./server/tmp/",
+	"port": "4990",
+    "username": "admin",
+    "passwd": "admin"
+}

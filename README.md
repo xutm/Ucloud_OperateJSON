@@ -1,4 +1,4 @@
-# Ucloud_OperateJSON 
+# locale 
 
 #Technologies
 	Mysql
@@ -51,14 +51,14 @@
 	         2.The LoadData button: be used to import the data of MySQL to client.
 
 #MySQL
-	1,CREATE DATABASE ucloud;
+	1,CREATE DATABASE uweb;
 	2,SHOW DATABASES;
-	3,use ucloud
-	4,CREATE TABLE Ucloud_datas(
-		KeyValue varchar(50),
+	3,use uweb
+	4,CREATE TABLE locale(
+		KeyValue varchar(50) PRIMARY KEY,
 		CN TEXT,
 		EN TEXT,
-		Field varchar(50)
+		Field varchar(200)
 	) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 	note: Base function to operate MySQL
